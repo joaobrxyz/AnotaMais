@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    tools:context=".Cadastro">
+    tools:context=".Cadastro"
+    android:id="@+id/cadastro">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -46,7 +48,7 @@
 
 
     <EditText
-        android:id="@+id/nameInput"
+        android:id="@+id/nameInputCadastro"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="40dp"
@@ -58,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/loginPromptText" />
 
     <EditText
-        android:id="@+id/emailInput"
+        android:id="@+id/emailInputCadastro"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -67,10 +69,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameInput" />
+        app:layout_constraintTop_toBottomOf="@id/nameInputCadastro" />
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/passwordInputCadastro"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -79,10 +81,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailInput" />
+        app:layout_constraintTop_toBottomOf="@id/emailInputCadastro" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/btCadastrarCadastro"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -93,5 +95,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+        app:layout_constraintTop_toBottomOf="@id/passwordInputCadastro" />
 </androidx.constraintlayout.widget.ConstraintLayout>

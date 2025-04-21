@@ -48,7 +48,7 @@
 
 
     <EditText
-        android:id="@+id/emailInput"
+        android:id="@+id/emailInputLogin"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="128dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/imageView2" />
 
     <EditText
-        android:id="@+id/passwordInput"
+        android:id="@+id/passwordInputLogin"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -69,11 +69,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailInput" />
+        app:layout_constraintTop_toBottomOf="@id/emailInputLogin" />
 
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/btEntrarLogin"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -84,10 +84,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordInput" />
+        app:layout_constraintTop_toBottomOf="@id/passwordInputLogin" />
 
 
-    <TextView
+    <Button
         android:id="@+id/forgotPasswordText"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -100,12 +100,13 @@
         android:text="Esqueceu a senha"
         android:textColor="@color/gray"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@id/createAccountText"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@id/btCreateAccountLogin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@id/btEntrarLogin" />
 
-    <TextView
-        android:id="@+id/createAccountText"
+    <Button
+        android:id="@+id/btCreateAccountLogin"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -118,9 +119,10 @@
         android:text="Cadastre-se"
         android:textColor="@color/gray"
         android:textSize="14sp"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/forgotPasswordText"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@id/btEntrarLogin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
