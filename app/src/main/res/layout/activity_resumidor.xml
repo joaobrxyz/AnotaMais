@@ -1,10 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/resumidor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Resumidor">
+    tools:context=".Resumidor"
+    android:layout_margin="24dp"
+    android:orientation="vertical"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/btVoltarResumidor"
+        android:layout_width="96dp"
+        android:layout_height="46dp"
+        android:src="@drawable/image_back"
+        android:background="@android:color/transparent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resumidor de aula"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginTop="28dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Digite os textos da aula ou o vídeo transcrito"
+        android:textSize="16dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/borda_layout">
+
+
+        <EditText
+            android:id="@+id/txtTituloResumidor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Título da aula"
+            android:inputType="textCapSentences"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="5dp"/>
+
+        <EditText
+            android:id="@+id/txtAnotacoesResumidor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Anotações..."
+            android:inputType="textMultiLine"
+            android:gravity="top|start"
+            android:textSize="18dp"
+            android:layout_marginTop="7dp"
+            android:paddingLeft="5dp"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btResumirResumidor"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textAlignment="center"
+        android:text="Resumir"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:backgroundTint="#FEB342"
+        android:textColor="@color/black" />
+
+
+</LinearLayout>

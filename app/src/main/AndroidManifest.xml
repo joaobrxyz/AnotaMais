@@ -19,7 +19,7 @@
             android:name=".Flashcards"
             android:exported="false" />
         <activity
-            android:name=".Resumidor"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Notes"
@@ -31,7 +31,7 @@
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Resumidor"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
