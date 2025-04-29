@@ -16,8 +16,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-    TextView emailInputLogin, passwordInputLogin;
-    Button btEntrarLogin, btCreateAccountLogin;
+    TextView txtNomeLogin;
+    Button btEntrarLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,34 +30,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             return insets;
         });
 
-        emailInputLogin = findViewById(R.id.emailInputLogin);
-        passwordInputLogin = findViewById(R.id.passwordInputLogin);
+        txtNomeLogin = findViewById(R.id.txtNomeLogin);
         btEntrarLogin = findViewById(R.id.btEntrarLogin);
-        btCreateAccountLogin = findViewById(R.id.btCreateAccountLogin);
 
-        btCreateAccountLogin.setOnClickListener(this);
+        btEntrarLogin.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btCreateAccountLogin) {
-            Intent screenCadastro = new Intent(this, Cadastro.class);
-            startActivity(screenCadastro);
-        }
         if (v.getId() == R.id.btEntrarLogin) {
             BancoController bancoController = new BancoController(getBaseContext());
-            String email = emailInputLogin.getText().toString();
-            String password = passwordInputLogin.getText().toString();
-
-            Cursor dados = bancoController.carregaDadosPeloEmail(email, password);
-
-            if (dados.moveToFirst()) {
-                String msg= "Teste OK";
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-            } else {
-                String msg= "Email ou senha incorreto(s)";
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-            }
+            String nome = txtNomeLogin.getText().toString();
+            bancoController.insereDados(nome);
+            Intent tela = new Intent(this, MainActivity.class);
+            startActivity(tela);
         }
     }
 }

@@ -38,7 +38,7 @@
         android:id="@+id/loginPromptText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Efetue seu login"
+        android:text="Digite o seu nome para continuar"
         android:textSize="20sp"
         android:textColor="@color/gray"
         app:layout_constraintTop_toBottomOf="@id/welcomeText"
@@ -48,28 +48,17 @@
 
 
     <EditText
-        android:id="@+id/emailInputLogin"
+        android:id="@+id/txtNomeLogin"
         android:layout_width="296dp"
         android:layout_height="48dp"
         android:layout_marginTop="128dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="Nome"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView2" />
 
-    <EditText
-        android:id="@+id/passwordInputLogin"
-        android:layout_width="296dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:hint="Senha"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailInputLogin" />
 
 
     <Button
@@ -84,45 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordInputLogin" />
-
-
-    <Button
-        android:id="@+id/forgotPasswordText"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="20dp"
-        android:text="Esqueceu a senha"
-        android:textColor="@color/gray"
-        android:textSize="14sp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@id/btCreateAccountLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btEntrarLogin" />
-
-    <Button
-        android:id="@+id/btCreateAccountLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:minWidth="48dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="20dp"
-        android:text="Cadastre-se"
-        android:textColor="@color/gray"
-        android:textSize="14sp"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/forgotPasswordText"
-        app:layout_constraintTop_toBottomOf="@id/btEntrarLogin" />
+        app:layout_constraintTop_toBottomOf="@id/txtNomeLogin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

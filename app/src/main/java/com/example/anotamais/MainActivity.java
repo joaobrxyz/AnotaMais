@@ -1,5 +1,7 @@
 package com.example.anotamais;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -20,5 +22,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        BancoController bancoController = new BancoController(getBaseContext());
+        if (!bancoController.verificaIdExiste()) {
+            Intent tela = new Intent(this, Login.class);
+            startActivity(tela);
+        }
     }
 }

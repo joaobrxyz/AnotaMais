@@ -12,9 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Cadastro extends AppCompatActivity implements View.OnClickListener {
-    TextView nameInputCadastro, emailInputCadastro, passwordInputCadastro;
-    Button btCadastrarCadastro;
+public class Cadastro extends AppCompatActivity {
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -28,20 +26,8 @@ public class Cadastro extends AppCompatActivity implements View.OnClickListener 
             return insets;
         });
 
-        nameInputCadastro = findViewById(R.id.nameInputCadastro);
-        emailInputCadastro = findViewById(R.id.emailInputCadastro);
-        passwordInputCadastro = findViewById(R.id.passwordInputCadastro);
-        btCadastrarCadastro = findViewById(R.id.btCadastrarCadastro);
 
-        btCadastrarCadastro.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        BancoController bancoController = new BancoController(getBaseContext());
-        String email = emailInputCadastro.getText().toString();
-        String nome = nameInputCadastro.getText().toString();
-        String password = passwordInputCadastro.getText().toString();
-        bancoController.insereDados(email, nome, password);
-    }
+
 }

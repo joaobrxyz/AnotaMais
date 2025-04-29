@@ -14,16 +14,13 @@ public class BancoController {
     }
 
 
-    public String insereDados(String txtEmail, String txtName, String txtPassword) {
+    public String insereDados(String txtName) {
         ContentValues valores;
         long resultado;
         db = banco.getWritableDatabase();
 
         valores = new ContentValues();
-        valores.put("email", txtEmail);
         valores.put("name", txtName);
-        valores.put("password", txtPassword);
-
         resultado = db.insert("usuario", null, valores);
         db.close();
 
@@ -33,10 +30,10 @@ public class BancoController {
             return "Registro Inserido com sucesso";
     }
 
-    public Cursor carregaDadosPeloEmail(String txtEmail, String txtPassword) {
+    public Cursor carregaDadosPeloId() {
         Cursor cursor;
-        String[] campos = { "email", "name", "password" };
-        String where = "email=" + txtEmail + " and password=" + txtPassword;
+        String[] campos = { "id", "name" };
+        String where = "id=1";
         db = banco.getReadableDatabase();
         cursor = db.query("usuario", campos, where, null, null, null,
                 null, null);
@@ -89,4 +86,13 @@ public class BancoController {
         return msg;
     }
 
+    public boolean verificaIdExiste() {
+        db = banco.getReadableDatabase();
+        String query = "SELECT * FROM usuario WHERE id = 1";
+        Cursor cursor = db.rawQuery(query, null);
+        boolean existe = cursor.getCount() > 0;
+        cursor.close();
+        db.close();
+        return existe;
+    }
 }
