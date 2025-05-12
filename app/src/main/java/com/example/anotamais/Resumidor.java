@@ -1,24 +1,82 @@
 package com.example.anotamais;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class Resumidor extends AppCompatActivity {
+public class Resumidor extends AppCompatActivity implements View.OnClickListener {
+    Button btResumirResumidor;
+    ImageButton btVoltarResumidor;
+    EditText txtTituloResumidor, txtAnotacoesResumidor;
+
+    GeminiConfig gemini;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_resumidor);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.resumidor), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        // Inicializa o GeminiConfig com a API Key
+        gemini = new GeminiConfig(BuildConfig.GEMINI_API_KEY);
+
+        btResumirResumidor = findViewById(R.id.btResumirResumidor);
+        btVoltarResumidor = findViewById(R.id.btVoltarResumidor);
+        txtTituloResumidor = findViewById(R.id.txtTituloResumidor);
+        txtAnotacoesResumidor = findViewById(R.id.txtAnotacoesResumidor);
+
+        btResumirResumidor.setOnClickListener(this);
+        btVoltarResumidor.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btResumirResumidor) {
+            String texto = txtAnotacoesResumidor.getText().toString();
+            if (texto.isEmpty()) {
+                Toast.makeText(this, "Digite algo primeiro", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Mostra que está processando
+            txtAnotacoesResumidor.setText("Processando...");
+            btResumirResumidor.setEnabled(false);
+
+            String prompt = "Resuma este texto de forma clara e concisa (Quero somente o resumo, não quero que vc fale 'aqui está o resumo' por exemplo): " + texto;
+
+            gemini.getResponse(prompt, new GeminiConfig.GeminiCallback() {
+                @Override
+                public void onResponse(String response) {
+                    runOnUiThread(() -> {
+                        btResumirResumidor.setEnabled(true);
+                        // Filtra respostas inesperadas
+                        if (response.startsWith("{") || response.contains("error")) {
+                            txtAnotacoesResumidor.setText("Erro: resposta inválida da API");
+                            Log.e("API_RESPONSE", response);
+                        } else {
+                            txtAnotacoesResumidor.setText(response);
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        btResumirResumidor.setEnabled(true);
+                        txtAnotacoesResumidor.setText("Erro: " + error);
+                        Toast.makeText(Resumidor.this, error, Toast.LENGTH_LONG).show();
+                        Log.e("API_ERROR", error);
+                    });
+                }
+            });
+            }
+        if (v.getId() == R.id.btVoltarResumidor) {
+            finish(); // Fecha a activity atual
+        }
     }
 }
