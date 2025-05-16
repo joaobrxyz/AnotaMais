@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CriaBanco extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "anotamais.db";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
     public CriaBanco(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
     }
@@ -17,6 +17,29 @@ public class CriaBanco extends SQLiteOpenHelper {
         String sql = "CREATE TABLE usuario ("
                 + "id integer primary key autoincrement,"
                 + "name text)";
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE caderno ("
+                + "id integer primary key autoincrement,"
+                + "name text)";
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE note ("
+                + "id integer primary key autoincrement,"
+                + "titulo text,"
+                + "conteudo text,"
+                + "id_caderno integer,"
+                + "FOREIGN KEY (id_caderno) REFERENCES caderno(id)"
+                + "ON DELETE CASCADE)";
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE card ("
+                + "id integer primary key autoincrement,"
+                + "pergunta text,"
+                + "resposta text,"
+                + "id_note integer,"
+                + "FOREIGN KEY (id_note) REFERENCES note(id)"
+                + "ON DELETE CASCADE)";
         db.execSQL(sql);
     }
 
