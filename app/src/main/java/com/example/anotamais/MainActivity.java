@@ -4,22 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton btImageCaderno;
-    Button btCriarMateria;
+    Button btCriarMateria, btCriarCaderno;
     TextView tvTituloMateria, olaaUsuario;
+    EditText txtCaderno;
+    LinearLayout newCaderno;
 
     String tituloRecebido, conteudoRecebido;
     String nomeUsuario;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -27,9 +32,15 @@ public class MainActivity extends AppCompatActivity {
         btCriarMateria = findViewById(R.id.btCriarMateria);
         tvTituloMateria = findViewById(R.id.tvTituloMateria);
         olaaUsuario = findViewById(R.id.olaaUsuario);
+        newCaderno = findViewById(R.id.newCaderno);
+        txtCaderno = findViewById(R.id.txtCaderno);
+        btCriarCaderno = findViewById(R.id.btCriarCaderno);
 
         btImageCaderno.setVisibility(View.GONE);
         tvTituloMateria.setVisibility(View.GONE);
+
+        btCriarMateria.setOnClickListener(this);
+        btCriarCaderno.setOnClickListener(this);
 
         Intent intent = getIntent();
 
@@ -55,15 +66,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentCaderno);
             });
         }
+    }
 
-        btCriarMateria.setOnClickListener(v -> {
-            Intent intentCriar = new Intent(MainActivity.this, Notes.class);
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btCriarMateria) {
+            newCaderno.setVisibility(View.VISIBLE);
+        }
+        if (v.getId() == R.id.btCriarCaderno) {
+            String nomeCaderno = txtCaderno.getText().toString();
+            BancoControllerCaderno bancoControllerCaderno = new BancoControllerCaderno(getBaseContext());
+            String msg = bancoControllerCaderno.insereDados(nomeCaderno);
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-            if (nomeUsuario != null) {
-                intentCriar.putExtra("nomeUsuario", nomeUsuario);
-            }
-
-            startActivity(intentCriar);
-        });
+        }
     }
 }
