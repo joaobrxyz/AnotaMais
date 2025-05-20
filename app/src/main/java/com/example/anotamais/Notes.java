@@ -8,13 +8,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class Notes extends AppCompatActivity {
 
     ImageButton btVoltarNotes;
     Button btSalvarNotes, btCriarPagina;
     EditText txtTitulo, txtConteudo;
+    String nomeUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,9 @@ public class Notes extends AppCompatActivity {
         btCriarPagina = findViewById(R.id.btCriarPagina);
         txtTitulo = findViewById(R.id.txtTitulo);
         txtConteudo = findViewById(R.id.txtConteudo);
+
+        Intent intentRecebida = getIntent();
+        nomeUsuario = intentRecebida.getStringExtra("nomeUsuario");
 
         btVoltarNotes.setOnClickListener(v -> {
             finish();
@@ -44,6 +47,9 @@ public class Notes extends AppCompatActivity {
             intent.putExtra("mostrarCaderno", true);
             intent.putExtra("titulo", titulo);
             intent.putExtra("conteudo", conteudo);
+
+            intent.putExtra("nomeUsuario", nomeUsuario);
+
             startActivity(intent);
             finish();
 

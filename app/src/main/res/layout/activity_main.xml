@@ -58,6 +58,7 @@
 
     </LinearLayout>
 
+
     <ImageButton
         android:id="@+id/btImageCaderno"
         android:layout_width="175dp"
@@ -69,6 +70,21 @@
         android:src="@drawable/caderno"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTituloMateria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Título da Matéria"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btImageCaderno"
+        app:layout_constraintStart_toStartOf="@id/btImageCaderno"
+        app:layout_constraintEnd_toEndOf="@id/btImageCaderno"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
