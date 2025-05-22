@@ -44,8 +44,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 return;
             }
 
-            BancoController bancoController = new BancoController(getBaseContext());
-            bancoController.insereDados(nome);
+            BancoControllerUsuario bancoControllerUsuario = new BancoControllerUsuario(getBaseContext());
+            bancoControllerUsuario.insereDados(nome);
 
             Intent tela = new Intent(this, MainActivity.class);
             tela.putExtra("nomeUsuario", nome);

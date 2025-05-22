@@ -85,4 +85,18 @@ public class BancoControllerCaderno {
         return msg;
     }
 
+    public Cursor listarCadernos() {
+        Cursor cursor;
+        //SELECT idAgendamento, data, hora, email FROM agendamento
+        String[] campos = { "name" };
+        db = banco.getReadableDatabase();
+        cursor = db.query("caderno", campos, null, null, null, null,
+                null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
+
 }
