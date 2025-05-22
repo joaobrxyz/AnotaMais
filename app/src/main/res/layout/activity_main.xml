@@ -1,101 +1,175 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   android:orientation="vertical"
+    android:orientation="vertical"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/olaaUsuario"
-        android:text="Olá, Usuário 👋"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/olaaUsuario"
+            android:text="Olá, Usuário 👋"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp" />
 
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
 
+            <Button
+                android:id="@+id/btCriarMateria"
+                android:text="Criar matéria"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:backgroundTint="@color/orange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:text="Resumir aula"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:backgroundTint="@color/orange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:text="Cards"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:backgroundTint="@color/orange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Minhas matérias"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/newCaderno"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome do caderno:" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:id="@+id/txtCaderno" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Criar"
+                android:layout_marginRight="80dp"
+                android:layout_marginLeft="80dp"
+                android:id="@+id/btCriarCaderno" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listaCaderno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTituloMateria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Título da Matéria"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
 
-        <Button
-            android:id="@+id/btCriarMateria"
-            android:text="Criar matéria"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:backgroundTint="@color/orange"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:text="Resumir aula"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:backgroundTint="@color/orange"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:text="Cards"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:backgroundTint="@color/orange"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/heart"
+            android:layout_marginRight="25dp"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home"
+            android:layout_marginRight="25dp"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/user"
+            android:background="@android:color/transparent"/>
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/newCaderno"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nome do caderno:" />
-        <EditText
-            android:layout_width="match_parent"
+            android:src="@drawable/selected"
+            android:layout_marginRight="57dp"
+            android:background="@android:color/transparent"/>
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:id="@+id/txtCaderno" />
-        <Button
-            android:layout_width="match_parent"
+            android:src="@drawable/selected"
+            android:layout_marginRight="50dp"
+            android:background="@android:color/transparent"/>
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Criar"
-            android:layout_marginRight="80dp"
-            android:layout_marginLeft="80dp"
-            android:id="@+id/btCriarCaderno" />
+            android:src="@drawable/selected"
+            android:background="@android:color/transparent"/>
 
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/btImageCaderno"
-        android:layout_width="175dp"
-        android:layout_height="215dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="152dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Imagem de caderno"
-        android:src="@drawable/caderno" />
-
-    <TextView
-        android:id="@+id/tvTituloMateria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Título da Matéria"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
-
 
 </LinearLayout>

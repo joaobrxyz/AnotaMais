@@ -1,39 +1,26 @@
 package com.example.anotamais;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.ImageButton;
-
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Caderno extends AppCompatActivity {
+    TextView titulo;
 
-    EditText txtTitulo, txtConteudo;
-    ImageButton btVoltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caderno);
 
+        titulo = findViewById(R.id.txtTituloDetalhes);
 
-        txtTitulo = findViewById(R.id.txtTituloDoCaderno);
-        txtConteudo = findViewById(R.id.txtConteudoCaderno);
-        btVoltar = findViewById(R.id.btVoltarCaderno);
+        String nomeCaderno = getIntent().getStringExtra("nomeCaderno");
 
+        if (nomeCaderno != null) {
+            titulo.setText("Caderno: " + nomeCaderno);
+            // Aqui você pode puxar dados com base nesse nome
+        }
 
-        Intent intent = getIntent();
-        String titulo = intent.getStringExtra("titulo");
-        String conteudo = intent.getStringExtra("conteudo");
-
-
-        txtTitulo.setText(titulo);
-        txtConteudo.setText(conteudo);
-
-
-        btVoltar.setOnClickListener(v -> {
-            finish();
-        });
     }
 }
