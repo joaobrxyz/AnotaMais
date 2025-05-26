@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.generativeai)
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation(libs.okhttp)
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.guava)
