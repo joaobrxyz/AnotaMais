@@ -22,6 +22,18 @@
         android:layout_marginStart="16dp" />
 
 
+    <ImageButton
+        android:id="@+id/btFlashCard"
+        android:layout_width="96dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="296dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="FlashCard"
+        android:src="@drawable/image_flashcard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/layoutAnotacao"
         android:layout_width="0dp"
