@@ -14,7 +14,7 @@ public class GeminiConfig {
     private final Executor executor;
 
     public GeminiConfig(String apiKey) {
-        GenerativeModel gm = new GenerativeModel("gemini-2.5-pro-exp-03-25", apiKey);
+        GenerativeModel gm = new GenerativeModel("gemini-2.0-flash-lite", apiKey);
         this.model = GenerativeModelFutures.from(gm);
         this.executor = Runnable::run;
     }

@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".Notes">
 
+    <!-- Botões e layout principal -->
 
     <ImageButton
         android:id="@+id/btVoltarNotes"
@@ -20,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp" />
-
 
     <ImageButton
         android:id="@+id/btFlashCard"
@@ -58,13 +58,14 @@
             android:id="@+id/txtConteudo"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:hint="Conteúdo da Anotação"
+            android:hint="Anotação"
             android:inputType="textMultiLine"
-            android:maxLines="10"
-            />
-
+            android:gravity="top|start"
+            android:maxLines="5"
+            android:minLines="1"
+            android:scrollHorizontally="false"
+            android:singleLine="false" />
     </LinearLayout>
-
 
     <Button
         android:id="@+id/btSalvarNotes"
@@ -94,6 +95,92 @@
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Modal / Popup -->
+    <FrameLayout
+        android:id="@+id/fundoPopup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
 
+        <LinearLayout
+            android:id="@+id/criarFlashcard"
+            android:layout_width="356dp"
+            android:layout_height="402dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_border_background"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="Criar flashcard para revisão"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="83dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edittext_border"
+                android:hint="Pergunta"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:maxLines="2"
+                android:minLines="1"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:padding="15dp"
+                android:id="@+id/txtPerguntaNotes"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="148dp"
+                android:background="@drawable/edittext_border"
+                android:hint="Resposta"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:maxLines="5"
+                android:minLines="1"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:padding="15dp"
+                android:id="@+id/txtRespostaNotes"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#FEB342"
+                    android:paddingLeft="20dp"
+                    android:text="Salvar"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:id="@+id/btSalvarFlashcard"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#FEB342"
+                    android:text="Gerar com ia"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:id="@+id/btGerarComIa"/>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
