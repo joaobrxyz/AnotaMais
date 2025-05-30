@@ -1,101 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/framePrincipal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Notes">
 
-    <!-- Botões e layout principal -->
-
-    <ImageButton
-        android:id="@+id/btVoltarNotes"
-        android:layout_width="96dp"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/image_back"
-        android:contentDescription="Voltar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
-
-    <ImageButton
-        android:id="@+id/btFlashCard"
-        android:layout_width="96dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="296dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="FlashCard"
-        android:src="@drawable/image_flashcard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    <!-- Conteúdo principal -->
     <LinearLayout
-        android:id="@+id/layoutAnotacao"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/borda_layout"
+        android:id="@+id/conteudoPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btVoltarNotes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btSalvarNotes"
-        android:layout_margin="24dp">
+        android:padding="16dp">
 
-        <EditText
-            android:id="@+id/txtTitulo"
+        <!-- Botões no topo -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:hint="Título"
-            android:inputType="text" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/txtConteudo"
+            <ImageButton
+                android:id="@+id/btVoltarNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/back"
+                android:layout_marginTop="8dp"
+                android:contentDescription="Voltar" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Página 1"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginLeft="12dp" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="Caderno: Matemática"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="12dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btFlashCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="FlashCard"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:src="@drawable/image_flashcard" />
+
+            <ImageButton
+                android:id="@+id/btnewPage"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_marginTop="7dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Criar nova página"
+                android:clickable="true"
+                android:src="@drawable/image_newpage" />
+        </LinearLayout>
+
+        <!-- Layout da anotação -->
+        <LinearLayout
+            android:id="@+id/layoutAnotacao"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:hint="Anotação"
-            android:inputType="textMultiLine"
-            android:gravity="top|start"
-            android:maxLines="5"
-            android:minLines="1"
-            android:scrollHorizontally="false"
-            android:singleLine="false" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/borda_layout"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginVertical="10dp">
+
+            <EditText
+                android:id="@+id/txtTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título"
+                android:inputType="textCapSentences"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="5dp" />
+
+            <EditText
+                android:id="@+id/txtConteudo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Anotações..."
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:textSize="18dp"
+                android:layout_marginTop="7dp"
+                android:paddingLeft="5dp"
+                android:background="@android:color/transparent" />
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btSalvarNotes"
-        android:layout_width="170dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="44dp"
-        android:backgroundTint="@color/orange"
-        android:text="Salvar"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btCriarPagina"
-        android:layout_width="170dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="44dp"
-        android:backgroundTint="@color/orange"
-        android:text="Criar Página"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Modal / Popup -->
+    <!-- Modal sobreposto -->
     <FrameLayout
         android:id="@+id/fundoPopup"
         android:layout_width="match_parent"
@@ -108,7 +129,7 @@
         <LinearLayout
             android:id="@+id/criarFlashcard"
             android:layout_width="356dp"
-            android:layout_height="402dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/rounded_border_background"
             android:orientation="vertical"
@@ -123,33 +144,27 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/txtPerguntaNotes"
                 android:layout_width="match_parent"
-                android:layout_height="83dp"
+                android:layout_height="101dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/edittext_border"
+                android:gravity="top|start"
                 android:hint="Pergunta"
                 android:inputType="textMultiLine"
-                android:gravity="top|start"
-                android:maxLines="2"
-                android:minLines="1"
-                android:scrollHorizontally="false"
-                android:singleLine="false"
-                android:padding="15dp"
-                android:id="@+id/txtPerguntaNotes"/>
+                android:maxLines="3"
+                android:padding="15dp" />
 
             <EditText
+                android:id="@+id/txtRespostaNotes"
                 android:layout_width="match_parent"
-                android:layout_height="148dp"
+                android:layout_height="157dp"
                 android:background="@drawable/edittext_border"
+                android:gravity="top|start"
                 android:hint="Resposta"
                 android:inputType="textMultiLine"
-                android:gravity="top|start"
                 android:maxLines="5"
-                android:minLines="1"
-                android:scrollHorizontally="false"
-                android:singleLine="false"
-                android:padding="15dp"
-                android:id="@+id/txtRespostaNotes"/>
+                android:padding="15dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,28 +174,26 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/btSalvarFlashcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:backgroundTint="#FEB342"
-                    android:paddingLeft="20dp"
                     android:text="Salvar"
                     android:textColor="#000000"
-                    android:textStyle="bold"
                     android:textSize="16dp"
-                    android:id="@+id/btSalvarFlashcard"/>
+                    android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/btGerarComIa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#FEB342"
-                    android:text="Gerar com ia"
+                    android:text="Gerar com IA"
                     android:textColor="#000000"
-                    android:textStyle="bold"
                     android:textSize="16dp"
-                    android:id="@+id/btGerarComIa"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
