@@ -23,7 +23,7 @@ public class BancoControllerCard {
         valores.put("pergunta", pergunta);
         valores.put("resposta", resposta);
         valores.put("id_note", idNote);
-        resultado = db.insert("note", null, valores);
+        resultado = db.insert("card", null, valores);
         db.close();
 
         if (resultado == -1)
@@ -37,7 +37,7 @@ public class BancoControllerCard {
         String[] campos = { "pergunta", "resposta", "id_note" };
         String where = "id="+id;
         db = banco.getReadableDatabase();
-        cursor = db.query("note", campos, where, null, null, null,
+        cursor = db.query("card", campos, where, null, null, null,
                 null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -60,7 +60,7 @@ public class BancoControllerCard {
         String condicao = "id = " + id;
 
         int linha ;
-        linha = db.update("note", valores, condicao, null) ;
+        linha = db.update("card", valores, condicao, null) ;
 
         if (linha < 1){
             msg = "Erro ao alterar os dados";
@@ -78,7 +78,7 @@ public class BancoControllerCard {
         String condicao = "id = " + id;
 
         int linhas ;
-        linhas = db.delete("note", condicao, null) ;
+        linhas = db.delete("card", condicao, null) ;
 
         if ( linhas < 1) {
             msg = "Erro ao Excluir" ;
@@ -87,4 +87,18 @@ public class BancoControllerCard {
         db.close();
         return msg;
     }
+
+    public Cursor carregaFlashcards() {
+        Cursor cursor;
+        String[] campos = { "id", "pergunta", "resposta" };
+        db = banco.getReadableDatabase();
+        cursor = db.query("card", campos, null, null, null, null,
+                null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
+
 }
