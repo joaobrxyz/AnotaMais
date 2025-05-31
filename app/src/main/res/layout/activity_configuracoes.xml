@@ -1,204 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#FFFFFF"
     android:padding="16dp"
     tools:context=".Configuracoes">
 
+
+
+    <!-- Perfil do Usuário -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp">
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgPerfil"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_launcher_background"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#CCCCCC"/>
+
+            <ImageView
+                android:id="@+id/btnEditarPerfil"
+                android:layout_width="28dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_edit"
+                app:tint="#000000"
+                android:padding="4dp"
+                android:layout_gravity="bottom|end"
+                android:clickable="true"
+                android:focusable="true"/>
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/btnVoltar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"
-            android:padding="8dp">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:padding="6dp"
-                android:src="@drawable/image_back" />
-        </LinearLayout>
-
-        <!-- Perfil do Usuário -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imgPerfil"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/ic_launcher_background"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="#CCCCCC"/> <!-- Substitua pela imagem real -->
-                <ImageView
-                    android:id="@+id/btnEditarPerfil"
-                    android:layout_width="28dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_edit"
-                    app:tint="#000000"
-                    android:padding="4dp"
-                    android:layout_gravity="bottom|end"
-                    android:clickable="true"
-                    android:focusable="true"/>
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="16dp">
-
-                <TextView
-                    android:id="@+id/txtNomeUsuario"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="David"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/btnAlterarInfoConta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true">
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Alterar informações da conta"
-                android:textSize="16sp"
-                android:textColor="#333333"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_seta_direita"
-                app:tint="#808080"/>
-        </LinearLayout>
-
-        <!-- Tema -->
-        <LinearLayout
-            android:id="@+id/btnTema"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_tema"
-                app:tint="#555555"
-                android:layout_marginEnd="12dp"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tema"
-                android:textSize="16sp"
-                android:textColor="#333333"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_seta_direita"
-                app:tint="#808080"/>
-        </LinearLayout>
-
-        <!-- Fonte -->
-        <LinearLayout
-            android:id="@+id/btnFonte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_format"
-                app:tint="#555555"
-                android:layout_marginEnd="12dp"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Fonte"
-                android:textSize="16sp"
-                android:textColor="#333333"/>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_seta_direita"
-                app:tint="#808080"/>
-        </LinearLayout>
-
-        <!-- Sincronizar com Google Drive -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sincronizar com o google drive"
-                android:textSize="16sp"
-                android:textColor="#333333"/>
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchSincronizarDrive"
+                android:id="@+id/txtNomeUsuario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="David"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btnAlterarInfoConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Alterar informações da conta"
+            android:textSize="16sp"
+            android:textColor="#333333"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_seta_direita"
+            app:tint="#808080"/>
+    </LinearLayout>
+
+    <!-- Tema -->
+    <LinearLayout
+        android:id="@+id/btnTema"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_tema"
+            app:tint="#555555"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tema"
+            android:textSize="16sp"
+            android:textColor="#333333"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_seta_direita"
+            app:tint="#808080"/>
+    </LinearLayout>
+
+    <!-- Fonte -->
+    <LinearLayout
+        android:id="@+id/btnFonte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_format"
+            app:tint="#555555"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fonte"
+            android:textSize="16sp"
+            android:textColor="#333333"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_seta_direita"
+            app:tint="#808080"/>
+    </LinearLayout>
+
+    <!-- Sincronizar com Google Drive -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sincronizar com o google drive"
+            android:textSize="16sp"
+            android:textColor="#333333"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchSincronizarDrive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
 
     </LinearLayout>
-</ScrollView>
+
+    <!-- Navegação inferior -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp">
+
+        <ImageButton
+            android:id="@+id/BtFavoritosConfiguracoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/heart"
+            android:layout_marginEnd="25dp"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:id="@+id/btHomeConfiguracoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home"
+            android:layout_marginEnd="25dp"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/user_selected"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+</LinearLayout>
