@@ -1,175 +1,182 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:id="@+id/main"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_height="match_parent">
 
+    <!-- Conteúdo principal da tela -->
     <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
 
-        <TextView
-            android:id="@+id/olaaUsuario"
-            android:text="Olá, Usuário 👋"
-            android:textSize="20sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp" />
-
+        <!-- Conteúdo superior, botões e lista -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btCriarMateria"
-                android:text="Criar matéria"
-                android:layout_weight="1"
-                android:layout_margin="4dp"
-                android:backgroundTint="@color/orange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/nomeUsuarioMain"
+                android:text="Olá, Usuário 👋"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp" />
 
-            <Button
-                android:text="Resumir aula"
-                android:layout_weight="1"
-                android:layout_margin="4dp"
-                android:backgroundTint="@color/orange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
 
-            <Button
-                android:text="Cards"
-                android:layout_weight="1"
-                android:layout_margin="4dp"
-                android:backgroundTint="@color/orange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/btCriarMateriaMain"
+                    android:layout_width="118dp"
+                    android:layout_height="60dp"
+                    android:text="Criar matéria"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#FEB342"
+                    android:textColor="@color/black" />
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btResumirAulaMain"
+                    android:layout_width="118dp"
+                    android:layout_height="60dp"
+                    android:text="Resumir aula"
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#FEB342"
+                    android:textColor="@color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Minhas matérias"
-            android:textSize="18sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginStart="16dp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/newCaderno"
-            android:visibility="gone">
+                <Button
+                    android:id="@+id/btCardsMain"
+                    android:layout_width="118dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="4dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="51dp"
+                    android:backgroundTint="#FEB342"
+                    android:text="Cards"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nome do caderno:" />
+                android:text="Minhas matérias"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold" />
 
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:id="@+id/txtCaderno" />
+                android:orientation="horizontal">
 
-            <Button
-                android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listaCaderno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvTituloMateria"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Criar"
-                android:layout_marginRight="80dp"
-                android:layout_marginLeft="80dp"
-                android:id="@+id/btCriarCaderno" />
-
+                android:text="Título da Matéria"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
 
+        <!-- Rodapé -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listaCaderno"
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/BtFavoritos"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"/>
+                android:src="@drawable/heart"
+                android:layout_marginRight="25dp"
+                android:background="@android:color/transparent"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/home_selected"
+                android:layout_marginRight="25dp"
+                android:background="@android:color/transparent"/>
+            <ImageButton
+                android:id="@+id/btConfigMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/user"
+                android:background="@android:color/transparent"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvTituloMateria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Título da Matéria"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
     </LinearLayout>
 
-    <LinearLayout
+    <!-- Popup do newCaderno -->
+    <FrameLayout
+        android:id="@+id/fundoPopupMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="10dp">
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
 
-        <ImageButton
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/newCaderno"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/heart"
-            android:layout_marginRight="25dp"
-            android:background="@android:color/transparent"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/home"
-            android:layout_marginRight="25dp"
-            android:background="@android:color/transparent"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/user"
-            android:background="@android:color/transparent"/>
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_popup_background"
+            android:elevation="10dp"
+            android:padding="24dp">
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nome do caderno:"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="12dp" />
 
-        <ImageView
-            android:visibility="invisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/selected"
-            android:layout_marginRight="57dp"
-            android:background="@android:color/transparent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/selected"
-            android:layout_marginRight="50dp"
-            android:background="@android:color/transparent"/>
-        <ImageView
-            android:visibility="invisible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/selected"
-            android:background="@android:color/transparent"/>
+            <EditText
+                android:id="@+id/txtCaderno"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/edittext_borda_preta"
+                android:paddingHorizontal="16dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="20dp" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btCriarCaderno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Salvar"
+                android:backgroundTint="#FEB342"
+                android:textColor="@color/black"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="10dp" />
+        </LinearLayout>
+    </FrameLayout>
 
-</LinearLayout>
+
+</FrameLayout>

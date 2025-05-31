@@ -2,21 +2,28 @@ package com.example.anotamais;
 
 import static android.view.View.GONE;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -24,80 +31,79 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ImageButton btImageCaderno;
-    Button btCriarMateria, btCriarCaderno;
-    TextView tvTituloMateria, olaaUsuario;
+    Button btCriarMateriaMain, btCriarCaderno, btResumirAulaMain, btCardsMain;
+    ImageButton btConfigMain;
+    TextView tvTituloMateria, nomeUsuarioMain;
     EditText txtCaderno;
     LinearLayout newCaderno;
     RecyclerView listaCaderno;
+    FrameLayout fundoPopupMain;
+    Cursor nomeUsuario;
 
-    String tituloRecebido, conteudoRecebido;
-    String nomeUsuario;
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //btImageCaderno = findViewById(R.id.btImageCaderno);
+        BancoControllerUsuario bancoControllerUsuario = new BancoControllerUsuario(getBaseContext());
+        if (!bancoControllerUsuario.verificaIdExiste()) {
+            Intent tela = new Intent(this, Login.class);
+            startActivity(tela);
+        } else {
+            nomeUsuario = bancoControllerUsuario.carregaDadosPeloId();
+            nomeUsuarioMain = findViewById(R.id.nomeUsuarioMain);
+            nomeUsuarioMain.setText("Olá, " + nomeUsuario.getString(1) + " 👋");
+        }
 
         listarCadernos();
 
-        btCriarMateria = findViewById(R.id.btCriarMateria);
+        btCriarMateriaMain = findViewById(R.id.btCriarMateriaMain);
+        btCriarCaderno = findViewById(R.id.btCriarCaderno);
+        btResumirAulaMain = findViewById(R.id.btResumirAulaMain);
+        btCardsMain = findViewById(R.id.btCardsMain);
+        btConfigMain = findViewById(R.id.btConfigMain);
         tvTituloMateria = findViewById(R.id.tvTituloMateria);
-        olaaUsuario = findViewById(R.id.olaaUsuario);
         newCaderno = findViewById(R.id.newCaderno);
         txtCaderno = findViewById(R.id.txtCaderno);
         btCriarCaderno = findViewById(R.id.btCriarCaderno);
+        fundoPopupMain = findViewById(R.id.fundoPopupMain);
 
-//        btImageCaderno.setVisibility(View.GONE);
         tvTituloMateria.setVisibility(GONE);
 
-        btCriarMateria.setOnClickListener(this);
+        btCriarMateriaMain.setOnClickListener(this);
         btCriarCaderno.setOnClickListener(this);
+        btResumirAulaMain.setOnClickListener(this);
+        btCardsMain.setOnClickListener(this);
+        btConfigMain.setOnClickListener(this);
 
-        Intent intent = getIntent();
-
-        BancoControllerUsuario bancoControllerUsuario = new BancoControllerUsuario(getBaseContext());
         if (!bancoControllerUsuario.verificaIdExiste()) {
             Intent tela = new Intent(this, Login.class);
             startActivity(tela);
         }
 
-
-
-
-
-        /*if (intent != null && intent.getBooleanExtra("mostrarCaderno", false)) {
-            tituloRecebido = intent.getStringExtra("titulo");
-            conteudoRecebido = intent.getStringExtra("conteudo");
-
-            btImageCaderno.setVisibility(View.VISIBLE);
-            tvTituloMateria.setText(tituloRecebido);
-            tvTituloMateria.setVisibility(View.VISIBLE);
-
-            btImageCaderno.setOnClickListener(v -> {
-                Intent intentCaderno = new Intent(MainActivity.this, Caderno.class);
-                intentCaderno.putExtra("titulo", tituloRecebido);
-                intentCaderno.putExtra("conteudo", conteudoRecebido);
-                startActivity(intentCaderno);
-            });
-        }*/
-
-
+        fundoPopupMain.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                v.performClick();
+                fundoPopupMain.setVisibility(View.GONE);
+                newCaderno.setVisibility(View.GONE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(txtCaderno.getWindowToken(), 0);
+                new Handler(Looper.getMainLooper()).postDelayed(this::listarCadernos, 200);
+                return true;
+            }
+            return false;
+        });
     }
-
-    private List<ModelCaderno> consultaTodosCadernos() {
-        List<ModelCaderno> cadernos = new LinkedList<ModelCaderno>();
-
+    private List<CadernoModel> consultaTodosCadernos() {
+        List<CadernoModel> cadernos = new LinkedList<CadernoModel>();
 
         BancoControllerCaderno bd = new BancoControllerCaderno(getBaseContext());
         Cursor dados = bd.listarCadernos();
 
-
         if (dados != null && dados.moveToFirst()) {
             do {
-                ModelCaderno caderno = new ModelCaderno();
+                CadernoModel caderno = new CadernoModel();
                 caderno.setNome(dados.getString(0));
                 cadernos.add(caderno);
             } while (dados.moveToNext());
@@ -111,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void listarCadernos(){
-        List<ModelCaderno> cadernos = null;
+        List<CadernoModel> cadernos = null;
         cadernos = consultaTodosCadernos();
         listaCaderno = findViewById(R.id.listaCaderno);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
@@ -122,17 +128,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btCriarMateria) {
+        if (v.getId() == R.id.btCriarMateriaMain) {
+            fundoPopupMain.setVisibility(View.VISIBLE);
             newCaderno.setVisibility(View.VISIBLE);
+
+            Animation fadeIn = new AlphaAnimation(0, 1);
+            fadeIn.setDuration(300);
+            newCaderno.startAnimation(fadeIn);
+            txtCaderno.setText("");
         }
         if (v.getId() == R.id.btCriarCaderno) {
             String nomeCaderno = txtCaderno.getText().toString();
-            BancoControllerCaderno bancoControllerCaderno = new BancoControllerCaderno(getBaseContext());
-            String msg = bancoControllerCaderno.insereDados(nomeCaderno);
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            newCaderno.setVisibility(GONE);
-            listarCadernos();
 
+            if (!nomeCaderno.isEmpty()) {
+                BancoControllerCaderno bancoControllerCaderno = new BancoControllerCaderno(getBaseContext());
+                String msg = bancoControllerCaderno.insereDados(nomeCaderno);
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(txtCaderno.getWindowToken(), 0);
+                fundoPopupMain.setVisibility(View.GONE);
+                newCaderno.setVisibility(View.GONE);
+                new Handler(Looper.getMainLooper()).postDelayed(this::listarCadernos, 200);
+            } else {
+                Toast.makeText(this, "Digite um nome para o caderno", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (v.getId() == R.id.btResumirAulaMain) {
+            Intent tela = new Intent(this, Resumidor.class);
+            startActivity(tela);
+        }
+        if (v.getId() == R.id.btCardsMain) {
+            Intent tela = new Intent(this, Flashcards.class);
+            startActivity(tela);
+        }
+        if (v.getId() == R.id.btConfigMain) {
+            Intent tela = new Intent(this, Configuracoes.class);
+            startActivity(tela);
         }
     }
 }
