@@ -2,6 +2,7 @@ package com.example.anotamais;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class Configuracoes extends AppCompatActivity {
     private LinearLayout btnTema;
     private LinearLayout btnFonte;
     private SwitchMaterial switchSincronizarDrive;
+    ImageButton btHomeConfiguracoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class Configuracoes extends AppCompatActivity {
         setContentView(R.layout.activity_configuracoes); // Certifique-se que o nome do XML está correto
 
         // Inicializar Views
-        btnVoltar = findViewById(R.id.btnVoltar);
+        btHomeConfiguracoes = findViewById(R.id.btHomeConfiguracoes);
         imgPerfil = findViewById(R.id.imgPerfil);
         btnEditarPerfil = findViewById(R.id.btnEditarPerfil);
         txtNomeUsuario = findViewById(R.id.txtNomeUsuario);
@@ -41,7 +43,7 @@ public class Configuracoes extends AppCompatActivity {
         switchSincronizarDrive = findViewById(R.id.switchSincronizarDrive);
 
         // Carregar dados do usuário (Exemplo - substitua pela sua lógica)
-        loadUserProfile();
+        /*loadUserProfile();
         loadSettings();
 
 
@@ -106,10 +108,15 @@ public class Configuracoes extends AppCompatActivity {
                 // TODO: Salvar preferência e parar lógica de sincronização
             }
             saveSyncPreference(isChecked);
+        });*/
+
+        btHomeConfiguracoes.setOnClickListener(v ->  {
+            Intent tela = new Intent(Configuracoes.this, MainActivity.class);
+            startActivity(tela);
         });
     }
 
-    private void loadUserProfile() {
+    /*private void loadUserProfile() {
 
 
         txtNomeUsuario.setText("David"); // Substitua por dados reais
@@ -133,6 +140,6 @@ public class Configuracoes extends AppCompatActivity {
         // editor.putBoolean("syncGoogleDrive", isEnabled);
         // editor.apply();
     }
-
+*/
 
 }

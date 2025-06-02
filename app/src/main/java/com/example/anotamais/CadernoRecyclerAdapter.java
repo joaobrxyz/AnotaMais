@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CadernoRecyclerAdapter extends RecyclerView.Adapter<CadernoRecyclerAdapter.ViewHolder> {
-    private List<ModelCaderno> cadernos;
+    private List<CadernoModel> cadernos;
 
-    public CadernoRecyclerAdapter(List<ModelCaderno> cadernos) {
+    public CadernoRecyclerAdapter(List<CadernoModel> cadernos) {
         this.cadernos = cadernos;
     }
 
@@ -28,7 +28,7 @@ public class CadernoRecyclerAdapter extends RecyclerView.Adapter<CadernoRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ModelCaderno caderno = cadernos.get(position);
+        CadernoModel caderno = cadernos.get(position);
         holder.nomeCaderno.setText(caderno.getNome());
 
         holder.imagemCaderno.setOnClickListener(v -> {
