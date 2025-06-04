@@ -7,10 +7,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CriaBanco extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "anotamais.db";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 3;
     public CriaBanco(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
     }
+    public static final String TABELA_CARD = "card";
+    public static final String CARD_ID = "id";
+    public static final String CARD_PERGUNTA = "pergunta"; // <-- DECLARE AQUI
+    public static final String CARD_RESPOSTA = "resposta";
+    public static final String CARD_ID_NOTE = "id_note";
 
     @Override
     public void onCreate(SQLiteDatabase db) {

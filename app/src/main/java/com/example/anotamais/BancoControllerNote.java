@@ -14,27 +14,24 @@ public class BancoControllerNote {
     }
 
 
-    public String insereDados(String titulo, String conteudo, int idCaderno) {
-        ContentValues valores;
-        long resultado;
+    public long insereDados(String titulo, String conteudo, int idCaderno) {
+        ContentValues valores = new ContentValues();
         db = banco.getWritableDatabase();
 
-        valores = new ContentValues();
         valores.put("titulo", titulo);
         valores.put("conteudo", conteudo);
         valores.put("id_caderno", idCaderno);
-        resultado = db.insert("note", null, valores);
+
+        long idInserido = db.insert("note", null, valores);
         db.close();
 
-        if (resultado == -1)
-            return "Erro ao inserir registro";
-        else
-            return "Registro Inserido com sucesso";
+        return idInserido; // -1 se falhou, id válido se inseriu
     }
+
 
     public Cursor carregaDadosPeloId(int id) {
         Cursor cursor;
-        String[] campos = { "titulo", "conteudo", "id_caderno" };
+        String[] campos = { "id", "titulo", "conteudo", "id_caderno" };
         String where = "id="+id;
         db = banco.getReadableDatabase();
         cursor = db.query("note", campos, where, null, null, null,
@@ -47,44 +44,36 @@ public class BancoControllerNote {
         return cursor;
     }
 
-    public String alteraDados(int id, String titulo, String conteudo){
+    public boolean atualizarNota(int id, String titulo, String conteudo) {
+        SQLiteDatabase db = banco.getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put("titulo", titulo);
+        valores.put("conteudo", conteudo);
 
-        String msg = "Dados alterados com sucesso!!!" ;
-
-        db = banco.getReadableDatabase();
-
-        ContentValues valores = new ContentValues() ;
-        valores.put("titulo" , titulo);
-        valores.put("conteudo" , conteudo);
-
-        String condicao = "id = " + id;
-
-        int linha ;
-        linha = db.update("note", valores, condicao, null) ;
-
-        if (linha < 1){
-            msg = "Erro ao alterar os dados";
-        }
-
+        int linhasAfetadas = db.update("note", valores, "id = ?", new String[]{String.valueOf(id)});
         db.close();
-        return msg;
+        return linhasAfetadas > 0;
     }
 
-    public String excluirDados(int id){
-        String msg = "Registro Excluído";
-
-        db = banco.getReadableDatabase();
-
-        String condicao = "id = " + id;
-
-        int linhas ;
-        linhas = db.delete("note", condicao, null) ;
-
-        if ( linhas < 1) {
-            msg = "Erro ao Excluir" ;
-        }
-
+    public boolean excluirNota(long id) {
+        SQLiteDatabase db = banco.getWritableDatabase();
+        int linhasAfetadas = db.delete("note", "id = ?", new String[]{String.valueOf(id)});
         db.close();
-        return msg;
+        return linhasAfetadas > 0;
+    }
+
+
+    public Cursor listarNotes(int idCaderno) {
+        Cursor cursor;
+        String[] campos = { "id", "titulo", "conteudo", "id_caderno" };
+        String where = "id_caderno="+idCaderno;
+        db = banco.getReadableDatabase();
+        cursor = db.query("note", campos, where, null, null, null,
+                null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
     }
 }

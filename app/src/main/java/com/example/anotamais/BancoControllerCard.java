@@ -1,3 +1,4 @@
+
 package com.example.anotamais;
 
 import android.content.ContentValues;
@@ -84,7 +85,7 @@ public class BancoControllerCard {
             msg = "Erro ao Excluir" ;
         }
 
-        db.close();
+        db.close(); // essa parte
         return msg;
     }
 
@@ -97,7 +98,7 @@ public class BancoControllerCard {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        db.close();
+        db.close(); // essa parte
         return cursor;
     }
 

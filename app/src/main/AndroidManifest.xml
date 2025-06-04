@@ -22,7 +22,7 @@
             android:name=".Menu"
             android:exported="false" />
         <activity
-            android:name=".Flashcards"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Login"
@@ -35,7 +35,7 @@
             android:name=".Cadastro"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Flashcards"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,3 +1,4 @@
+
 package com.example.anotamais;
 public class FlashcardModel {
     private int id;

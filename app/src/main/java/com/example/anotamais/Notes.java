@@ -1,6 +1,8 @@
+
 package com.example.anotamais;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Rect;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,18 +28,29 @@ import java.util.List;
 public class Notes extends AppCompatActivity {
 
     ImageButton btVoltarNotes, btFlashCard;
-    Button btSalvarNotes, btCriarPagina, btGerarComIa, btSalvarFlashcard;
+    Button btCriarPagina, btGerarComIa, btSalvarFlashcard;
     EditText txtTitulo, txtConteudo, txtPergunta, txtResposta;
-    String nomeUsuario;
+    TextView txtTituloPagina, nomeCadernoNote;
+    String nomeCaderno;
     FrameLayout fundoPopup;
     LinearLayout criarFlashcard, conteudoPrincipal;
     GeminiConfig gemini;
+    int idPagina, idCaderno;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+
+        idPagina = getIntent().getIntExtra("idPagina", 0);
+        idCaderno = getIntent().getIntExtra("idCaderno", 0);
+        nomeCaderno = getIntent().getStringExtra("nomeCaderno");
+
+        recuperarPagina();
+
+
+
 
         gemini = new GeminiConfig(BuildConfig.GEMINI_API_KEY);
         btVoltarNotes = findViewById(R.id.btVoltarNotes);
@@ -45,6 +59,8 @@ public class Notes extends AppCompatActivity {
         btGerarComIa = findViewById(R.id.btGerarComIa);
         conteudoPrincipal = findViewById(R.id.conteudoPrincipal);
         btSalvarFlashcard = findViewById(R.id.btSalvarFlashcard);
+        btVoltarNotes = findViewById(R.id.btVoltarNotes);
+        txtTituloPagina = findViewById(R.id.txtTituloPagina);
         txtTitulo = findViewById(R.id.txtTitulo);
         txtConteudo = findViewById(R.id.txtConteudo);
         txtPergunta = findViewById(R.id.txtPerguntaNotes);
@@ -52,34 +68,44 @@ public class Notes extends AppCompatActivity {
         fundoPopup = findViewById(R.id.fundoPopup);
         criarFlashcard = findViewById(R.id.criarFlashcard);
 
-        Intent intentRecebida = getIntent();
-        nomeUsuario = intentRecebida.getStringExtra("nomeUsuario");
 
         btVoltarNotes.setOnClickListener(v -> {
-            finish();
+            Context context = v.getContext();
+            Intent intent = new Intent(context, Caderno.class);
+            intent.putExtra("idCaderno", idCaderno);
+            intent.putExtra("nomeCaderno", nomeCaderno);
+            context.startActivity(intent);
         });
 
-        /*btSalvarNotes.setOnClickListener(v -> {
-            String titulo = txtTitulo.getText().toString().trim();
-            String conteudo = txtConteudo.getText().toString().trim();
 
-            if (titulo.isEmpty() || conteudo.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-                return;
+
+        txtTitulo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                txtTituloPagina.setText(txtTitulo.getText().toString());
+                salvarNoBanco();
             }
+        });
 
-            Intent intent = new Intent(Notes.this, MainActivity.class);
-            intent.putExtra("mostrarCaderno", true);
-            intent.putExtra("titulo", titulo);
-            intent.putExtra("conteudo", conteudo);
+        txtConteudo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            intent.putExtra("nomeUsuario", nomeUsuario);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
-            startActivity(intent);
-            finish();
+            @Override
+            public void afterTextChanged(Editable s) {
+                salvarNoBanco();
+            }
+        });
 
-            Toast.makeText(this, "Caderno criado com sucesso!", Toast.LENGTH_SHORT).show();
-        });*/
         btFlashCard.setOnClickListener(v -> {
             fundoPopup.setVisibility(View.VISIBLE);
             conteudoPrincipal.animate().alpha(0.3f).setDuration(200).start();
@@ -225,28 +251,6 @@ public class Notes extends AppCompatActivity {
             }
         });
     }
-    private List<FlashcardModel> consultaTodosFlashcards() {
-        List<FlashcardModel> lista = new LinkedList<FlashcardModel>();
-
-
-        BancoControllerCard bd = new BancoControllerCard(getBaseContext());
-        Cursor dados = bd.carregaFlashcards();
-
-
-        if (dados != null && dados.moveToFirst()) {
-            do {
-                FlashcardModel item = new FlashcardModel();
-                item.setId(dados.getInt(0));
-                item.setPergunta(dados.getString(1));
-                item.setResposta(dados.getString(2));
-                lista.add(item);
-            } while (dados.moveToNext());
-        }else{
-            String msg = "Não há perguntas de flashcard criada";
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        }
-        return lista;
-    }
     private List<String> consultaTodasAsPerguntasDosFlashcards() {
         List<String> lista = new LinkedList<String>();
 
@@ -267,4 +271,42 @@ public class Notes extends AppCompatActivity {
         }
         return lista;
     }
+
+    private void recuperarPagina(){
+        BancoControllerNote bd = new BancoControllerNote(getBaseContext());
+        Cursor dados = bd.carregaDadosPeloId(idPagina);
+        NotaModel pag = new NotaModel();
+        pag.setId(dados.getInt(0));
+        pag.setTitulo(dados.getString(1));
+        pag.setConteudo(dados.getString(2));
+        pag.setIdCaderno(dados.getInt(3));
+
+        BancoControllerCaderno bd2 = new BancoControllerCaderno(getBaseContext());
+        Cursor dados2 = bd2.carregaDadosPeloId(pag.getIdCaderno());
+        CadernoModel cad = new CadernoModel();
+        cad.setId(dados2.getInt(0));
+        cad.setNome(dados2.getString(1));
+        dados.close();
+
+        nomeCadernoNote = findViewById(R.id.nomeCadernoNote);
+        nomeCadernoNote.setText("Caderno: " + cad.getNome());
+
+        txtTituloPagina = findViewById(R.id.txtTituloPagina);
+        txtTituloPagina.setText(pag.getTitulo());
+
+        txtTitulo = findViewById(R.id.txtTitulo);
+        txtTitulo.setText(pag.getTitulo());
+
+        txtConteudo = findViewById(R.id.txtConteudo);
+        txtConteudo.setText(pag.getConteudo());
+    }
+
+    private void salvarNoBanco() {
+        String novoTitulo = txtTitulo.getText().toString();
+        String novoConteudo = txtConteudo.getText().toString();
+
+        BancoControllerNote bd = new BancoControllerNote(this);
+        bd.atualizarNota(idPagina, novoTitulo, novoConteudo);
+    }
+
 }
