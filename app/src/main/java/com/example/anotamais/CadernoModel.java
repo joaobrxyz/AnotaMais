@@ -3,6 +3,7 @@ package com.example.anotamais;
 public class CadernoModel {
     // modelo da tabela agendamento
     String nome;
+    int id;
     //método construtor
     public CadernoModel() {}
     public CadernoModel(String nome){
@@ -18,4 +19,11 @@ public class CadernoModel {
         this.nome = nome;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -67,28 +67,32 @@ public class BancoControllerCaderno {
         return msg;
     }
 
-    public String excluirDados(String name){
-        String msg = "Registro Excluído" ;
+    public boolean excluirCaderno(long id) {
+        SQLiteDatabase db = banco.getWritableDatabase();
+        int linhasAfetadas = db.delete("caderno", "id = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return linhasAfetadas > 0;
+    }
 
+    public Cursor carregaDadosPeloId(int id) {
+        Cursor cursor;
+        String[] campos = {"id", "name" };
+        String where = "id="+id;
         db = banco.getReadableDatabase();
-
-        String condicao = "name = " + name ;
-
-        int linhas ;
-        linhas = db.delete("caderno", condicao, null) ;
-
-        if ( linhas < 1) {
-            msg = "Erro ao Excluir" ;
+        cursor = db.query("caderno", campos, where, null, null, null,
+                null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
         }
 
         db.close();
-        return msg;
+        return cursor;
     }
 
     public Cursor listarCadernos() {
         Cursor cursor;
         //SELECT idAgendamento, data, hora, email FROM agendamento
-        String[] campos = { "name" };
+        String[] campos = { "id", "name" };
         db = banco.getReadableDatabase();
         cursor = db.query("caderno", campos, null, null, null, null,
                 null, null);

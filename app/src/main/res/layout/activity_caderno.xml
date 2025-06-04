@@ -1,24 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="24dp"
+    tools:context=".Caderno">
 
-    <TextView
-        android:id="@+id/txtTituloDetalhes"
+    <ImageButton
+        android:id="@+id/btVoltarCaderno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Título do Caderno"
+        android:src="@drawable/image_back"
+        android:background="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/tituloPagina"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:accessibilityHeading="true"
+        android:importantForAccessibility="yes"
+        android:text="Minhas Anotações"
+        android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtConteudoDetalhes"
+        android:id="@+id/nomeCadernoCaderno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:accessibilityHeading="true"
+        android:importantForAccessibility="yes"
+        android:text="Caderno: Matemática"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollNotas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/tituloPagina"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btCriarAnotacao">
+
+        <LinearLayout
+            android:id="@+id/containerNotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:id="@+id/textoPlaceHolderCaderno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="Mensagem indicando que não há anotações ainda"
+                android:focusable="true"
+                android:importantForAccessibility="yes"
+                android:padding="8dp"
+                android:text="Nenhuma anotação disponível"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listaNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btCriarAnotacao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Conteúdo do Caderno"
-        android:textSize="18sp" />
-</LinearLayout>
+        android:text="Criar Anotação"
+        android:backgroundTint="@color/orange"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:importantForAccessibility="yes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

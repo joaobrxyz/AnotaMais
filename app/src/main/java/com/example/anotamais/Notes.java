@@ -1,4 +1,3 @@
-
 package com.example.anotamais;
 
 import android.annotation.SuppressLint;
