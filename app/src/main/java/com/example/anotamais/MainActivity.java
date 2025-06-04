@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (dados != null && dados.moveToFirst()) {
             do {
                 CadernoModel caderno = new CadernoModel();
-                caderno.setNome(dados.getString(0));
+                caderno.setId(dados.getInt(0));
+                caderno.setNome(dados.getString(1));
                 cadernos.add(caderno);
             } while (dados.moveToNext());
         } else {
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listaCaderno = findViewById(R.id.listaCaderno);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
         listaCaderno.setLayoutManager(layoutManager);
-        CadernoRecyclerAdapter adapter = new CadernoRecyclerAdapter(cadernos);
+        CadernoRecyclerAdapter adapter = new CadernoRecyclerAdapter(this, cadernos);
         listaCaderno.setAdapter(adapter);
     }
 
