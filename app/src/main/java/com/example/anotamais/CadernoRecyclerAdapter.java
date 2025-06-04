@@ -33,8 +33,8 @@ public class CadernoRecyclerAdapter extends RecyclerView.Adapter<CadernoRecycler
 
         holder.imagemCaderno.setOnClickListener(v -> {
             Context context = v.getContext();
-            Intent intent = new Intent(context, Caderno.class);
-            intent.putExtra("nomeCaderno", caderno.getNome());
+            Intent intent = new Intent(context, Menu.class);
+            intent.putExtra("idCaderno", caderno.getIdCaderno());
             context.startActivity(intent);
         });
     }

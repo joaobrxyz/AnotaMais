@@ -11,10 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Notes extends AppCompatActivity {
 
-    ImageButton btVoltarNotes;
-    Button btSalvarNotes, btCriarPagina;
-    EditText txtTitulo, txtConteudo;
-    String nomeUsuario;
+    private ImageButton btVoltarNotes;
+    private Button btSalvarNotes, btCriarPagina;
+    private EditText txtTitulo, txtConteudo;
+
+    private BancoControllerNote bancoControllerNote;
+    private int idCaderno;
+    private Integer idNota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +26,25 @@ public class Notes extends AppCompatActivity {
 
         btVoltarNotes = findViewById(R.id.btVoltarNotes);
         btSalvarNotes = findViewById(R.id.btSalvarNotes);
-        btCriarPagina = findViewById(R.id.btCriarPagina);
         txtTitulo = findViewById(R.id.txtTitulo);
         txtConteudo = findViewById(R.id.txtConteudo);
 
-        Intent intentRecebida = getIntent();
-        nomeUsuario = intentRecebida.getStringExtra("nomeUsuario");
+        bancoControllerNote = new BancoControllerNote(this);
 
-        btVoltarNotes.setOnClickListener(v -> {
-            finish();
-        });
+        Intent intentRecebida = getIntent();
+        String tituloEdit = intentRecebida.getStringExtra("titulo");
+        String conteudoEdit = intentRecebida.getStringExtra("conteudo");
+        idCaderno = intentRecebida.getIntExtra("idCaderno", -1);
+        idNota = intentRecebida.getIntExtra("idNota", -1);
+
+        if (tituloEdit != null) {
+            txtTitulo.setText(tituloEdit);
+        }
+
+        if (conteudoEdit != null) {
+            txtConteudo.setText(conteudoEdit);
+        }
+
 
         btSalvarNotes.setOnClickListener(v -> {
             String titulo = txtTitulo.getText().toString().trim();
@@ -43,17 +55,24 @@ public class Notes extends AppCompatActivity {
                 return;
             }
 
-            Intent intent = new Intent(Notes.this, MainActivity.class);
-            intent.putExtra("mostrarCaderno", true);
-            intent.putExtra("titulo", titulo);
-            intent.putExtra("conteudo", conteudo);
+            String resultado;
+            if (idNota != null && idNota != -1) {
+                resultado = bancoControllerNote.alteraDados(idNota, titulo, conteudo);
+            } else {
+                resultado = bancoControllerNote.insereDados(titulo, conteudo, idCaderno);
+            }
+            Toast.makeText(this, resultado, Toast.LENGTH_SHORT).show();
 
-            intent.putExtra("nomeUsuario", nomeUsuario);
+            Intent intentResult = new Intent();
+            intentResult.putExtra("titulo", titulo);
+            intentResult.putExtra("conteudo", conteudo);
+            setResult(RESULT_OK, intentResult);
 
-            startActivity(intent);
             finish();
-
-            Toast.makeText(this, "Caderno criado com sucesso!", Toast.LENGTH_SHORT).show();
         });
+
+
+        btVoltarNotes.setOnClickListener(v -> finish());
     }
+
 }

@@ -1,9 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
     tools:context=".Menu">
 
+    <TextView
+        android:id="@+id/tituloPagina"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Minhas Anotações"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:importantForAccessibility="yes"
+        android:accessibilityHeading="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollNotas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/tituloPagina"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btCriarAnotacao">
+
+        <LinearLayout
+            android:id="@+id/containerNotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/textoPlaceholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nenhuma anotação disponível"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray"
+                android:padding="8dp"
+                android:contentDescription="Mensagem indicando que não há anotações ainda"
+                android:importantForAccessibility="yes"
+                android:focusable="true" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btCriarAnotacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Criar Anotação"
+        android:backgroundTint="@color/orange"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:importantForAccessibility="yes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

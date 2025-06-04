@@ -68,32 +68,17 @@
 
     <Button
         android:id="@+id/btSalvarNotes"
-        android:layout_width="170dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="44dp"
+        android:layout_width="381dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="48dp"
         android:backgroundTint="@color/orange"
         android:text="Salvar"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btCriarPagina"
-        android:layout_width="170dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="44dp"
-        android:backgroundTint="@color/orange"
-        android:text="Criar Página"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

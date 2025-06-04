@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //btImageCaderno = findViewById(R.id.btImageCaderno);
 
         listarCadernos();
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtCaderno = findViewById(R.id.txtCaderno);
         btCriarCaderno = findViewById(R.id.btCriarCaderno);
 
-//        btImageCaderno.setVisibility(View.GONE);
+
         tvTituloMateria.setVisibility(GONE);
 
         btCriarMateria.setOnClickListener(this);
@@ -63,27 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent tela = new Intent(this, Login.class);
             startActivity(tela);
         }
-
-
-
-
-
-        /*if (intent != null && intent.getBooleanExtra("mostrarCaderno", false)) {
-            tituloRecebido = intent.getStringExtra("titulo");
-            conteudoRecebido = intent.getStringExtra("conteudo");
-
-            btImageCaderno.setVisibility(View.VISIBLE);
-            tvTituloMateria.setText(tituloRecebido);
-            tvTituloMateria.setVisibility(View.VISIBLE);
-
-            btImageCaderno.setOnClickListener(v -> {
-                Intent intentCaderno = new Intent(MainActivity.this, Caderno.class);
-                intentCaderno.putExtra("titulo", tituloRecebido);
-                intentCaderno.putExtra("conteudo", conteudoRecebido);
-                startActivity(intentCaderno);
-            });
-        }*/
-
 
     }
 
@@ -98,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (dados != null && dados.moveToFirst()) {
             do {
                 ModelCaderno caderno = new ModelCaderno();
-                caderno.setNome(dados.getString(0));
+                caderno.setIdCaderno(dados.getInt(0));
+                caderno.setNome(dados.getString(1));
                 cadernos.add(caderno);
             } while (dados.moveToNext());
         } else {

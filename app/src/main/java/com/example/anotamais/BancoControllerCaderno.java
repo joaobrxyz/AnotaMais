@@ -88,7 +88,7 @@ public class BancoControllerCaderno {
     public Cursor listarCadernos() {
         Cursor cursor;
         //SELECT idAgendamento, data, hora, email FROM agendamento
-        String[] campos = { "name" };
+        String[] campos = { "id", "name" };
         db = banco.getReadableDatabase();
         cursor = db.query("caderno", campos, null, null, null, null,
                 null, null);

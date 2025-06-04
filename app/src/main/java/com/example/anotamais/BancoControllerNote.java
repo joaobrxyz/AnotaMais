@@ -23,7 +23,7 @@ public class BancoControllerNote {
         valores.put("titulo", titulo);
         valores.put("conteudo", conteudo);
         valores.put("id_caderno", idCaderno);
-        resultado = db.insert("caderno", null, valores);
+        resultado = db.insert("note", null, valores);
         db.close();
 
         if (resultado == -1)
@@ -37,7 +37,7 @@ public class BancoControllerNote {
         String[] campos = { "titulo", "conteudo", "id_caderno" };
         String where = "id="+id;
         db = banco.getReadableDatabase();
-        cursor = db.query("caderno", campos, where, null, null, null,
+        cursor = db.query("note", campos, where, null, null, null,
                 null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -60,7 +60,7 @@ public class BancoControllerNote {
         String condicao = "id = " + id;
 
         int linha ;
-        linha = db.update("caderno", valores, condicao, null) ;
+        linha = db.update("note", valores, condicao, null) ;
 
         if (linha < 1){
             msg = "Erro ao alterar os dados";
@@ -87,4 +87,15 @@ public class BancoControllerNote {
         db.close();
         return msg;
     }
+
+    public Cursor listarNotes(int idCaderno) {
+        db = banco.getReadableDatabase();
+
+        String[] campos = { "id", "titulo", "conteudo" };
+        String where = "id_caderno = ?";
+        String[] whereArgs = { String.valueOf(idCaderno) };
+
+        return db.query("note", campos, where, whereArgs, null, null, null);
+    }
+
 }
