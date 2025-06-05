@@ -4,6 +4,7 @@ public class FlashcardModel {
     private int id;
     private String pergunta;
     private String resposta;
+    private int paginaId;
 
     public FlashcardModel() {
     }
@@ -37,4 +38,13 @@ public class FlashcardModel {
     public void setResposta(String resposta) {
         this.resposta = resposta;
     }
+
+    public int getPaginaId() {
+        return paginaId;
+    }
+
+    public void setPaginaId(int paginaId) {
+        this.paginaId = paginaId;
+    }
+
 }

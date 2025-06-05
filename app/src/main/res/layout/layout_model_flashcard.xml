@@ -1,0 +1,27 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="165dp"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:layout_marginBottom="8dp"
+    android:gravity="center"
+    android:background="@drawable/bg_flashcard"
+    android:minHeight="150dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/itemCard">
+
+    <TextView
+        android:id="@+id/textoPergunta"
+        android:layout_width="150dp"
+        android:layout_height="135dp"
+        android:text="Exemplo de pergunta"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:maxLines="5" />
+</LinearLayout>
