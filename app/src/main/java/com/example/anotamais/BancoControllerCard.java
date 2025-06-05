@@ -71,22 +71,11 @@ public class BancoControllerCard {
         return msg;
     }
 
-    public String excluirDados(int id){
-        String msg = "Registro Excluído";
-
-        db = banco.getReadableDatabase();
-
-        String condicao = "id = " + id;
-
-        int linhas ;
-        linhas = db.delete("card", condicao, null) ;
-
-        if ( linhas < 1) {
-            msg = "Erro ao Excluir" ;
-        }
-
-        db.close(); // essa parte
-        return msg;
+    public boolean excluirCard(long id) {
+        SQLiteDatabase db = banco.getWritableDatabase();
+        int linhasAfetadas = db.delete("card", "id = ?", new String[]{String.valueOf(id)});
+        db.close();
+        return linhasAfetadas > 0;
     }
 
     public Cursor carregaFlashcards() {
@@ -99,6 +88,19 @@ public class BancoControllerCard {
             cursor.moveToFirst();
         }
         db.close(); // essa parte
+        return cursor;
+    }
+
+    public Cursor listarCards() {
+        Cursor cursor;
+        String[] campos = { "id", "pergunta", "resposta", "id_note" };
+        db = banco.getReadableDatabase();
+        cursor = db.query("card", campos, null, null, null, null,
+                null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        db.close();
         return cursor;
     }
 
