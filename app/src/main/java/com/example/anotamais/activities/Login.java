@@ -1,4 +1,4 @@
-package com.example.anotamais;
+package com.example.anotamais.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.anotamais.controllers.BancoControllerUsuario;
+import com.example.anotamais.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     TextView txtNomeLogin;

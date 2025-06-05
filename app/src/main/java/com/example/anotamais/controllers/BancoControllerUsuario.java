@@ -1,9 +1,11 @@
-package com.example.anotamais;
+package com.example.anotamais.controllers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.anotamais.database.CriaBanco;
 
 public class BancoControllerUsuario {
     private SQLiteDatabase db;

@@ -1,4 +1,4 @@
-package com.example.anotamais;
+package com.example.anotamais.activities;
 
 import static android.view.View.GONE;
 
@@ -25,6 +25,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.anotamais.controllers.BancoControllerCaderno;
+import com.example.anotamais.controllers.BancoControllerUsuario;
+import com.example.anotamais.models.CadernoModel;
+import com.example.anotamais.adapters.CadernoRecyclerAdapter;
+import com.example.anotamais.R;
 
 import java.util.LinkedList;
 import java.util.List;

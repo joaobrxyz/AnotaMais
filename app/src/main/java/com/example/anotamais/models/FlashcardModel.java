@@ -1,5 +1,5 @@
 
-package com.example.anotamais;
+package com.example.anotamais.models;
 public class FlashcardModel {
     private int id;
     private String pergunta;

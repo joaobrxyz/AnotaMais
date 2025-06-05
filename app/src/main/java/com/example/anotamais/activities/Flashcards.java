@@ -1,4 +1,4 @@
-package com.example.anotamais;
+package com.example.anotamais.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -21,6 +20,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.anotamais.controllers.BancoControllerCard;
+import com.example.anotamais.models.FlashcardModel;
+import com.example.anotamais.adapters.FlashcardRecyclerAdapter;
+import com.example.anotamais.R;
 
 import java.util.LinkedList;
 import java.util.List;

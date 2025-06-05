@@ -1,4 +1,4 @@
-package com.example.anotamais;
+package com.example.anotamais.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,50 +13,52 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.anotamais.controllers.BancoControllerCaderno;
+import com.example.anotamais.models.CadernoModel;
+import com.example.anotamais.R;
+import com.example.anotamais.activities.Caderno;
+
 import java.util.List;
 
-public class AnotacaoRecyclerAdapter extends RecyclerView.Adapter<AnotacaoRecyclerAdapter.ViewHolder> {
-    private List<NotaModel> notas;
+public class CadernoRecyclerAdapter extends RecyclerView.Adapter<CadernoRecyclerAdapter.ViewHolder> {
+    private List<CadernoModel> cadernos;
     private Context context;
 
-    public AnotacaoRecyclerAdapter(Context context, List<NotaModel> notas) {
+    public CadernoRecyclerAdapter(Context context, List<CadernoModel> cadernos) {
         this.context = context;
-        this.notas = notas;
+        this.cadernos = cadernos;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_model_anotacao, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_model_caderno, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        NotaModel nota = notas.get(position);
-        holder.tituloAnotacao.setText(nota.getTitulo());
+        CadernoModel caderno = cadernos.get(position);
+        holder.nomeCaderno.setText(caderno.getNome());
 
-        holder.imagemNote.setOnClickListener(v -> {
+        holder.imagemCaderno.setOnClickListener(v -> {
             Context context = v.getContext();
-            Intent intent = new Intent(context, Notes.class);
-            intent.putExtra("idPagina", nota.getId());
-            intent.putExtra("idCaderno", nota.getIdCaderno());
-            intent.putExtra("nomeCaderno", nota.getNomeCaderno());
+            Intent intent = new Intent(context, Caderno.class);
+            intent.putExtra("nomeCaderno", caderno.getNome());
+            intent.putExtra("idCaderno", caderno.getId());
             context.startActivity(intent);
-
-
         });
 
-        holder.imagemNote.setOnLongClickListener(v -> {
+        holder.imagemCaderno.setOnLongClickListener(v -> {
             new AlertDialog.Builder(context)
-                    .setTitle("Excluir Anotação")
-                    .setMessage("Tem certeza que deseja excluir esta anotação?")
+                    .setTitle("Excluir Caderno")
+                    .setMessage("Tem certeza que deseja excluir esse caderno?")
                     .setPositiveButton("Excluir", (dialog, which) -> {
-                        BancoControllerNote notaDAO = new BancoControllerNote(context);
-                        boolean sucesso = notaDAO.excluirNota(nota.getId());
+                        BancoControllerCaderno cad = new BancoControllerCaderno(context);
+                        boolean sucesso = cad.excluirCaderno(caderno.getId());
 
                         if (sucesso) {
-                            notas.remove(position);
+                            cadernos.remove(position);
                             notifyItemRemoved(position);
                             Toast.makeText(context, "Anotação excluída", Toast.LENGTH_SHORT).show();
                         } else {
@@ -67,21 +69,20 @@ public class AnotacaoRecyclerAdapter extends RecyclerView.Adapter<AnotacaoRecycl
                     .show();
             return true;
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return notas.size();
+        return cadernos.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tituloAnotacao;
-        ImageButton imagemNote;
+        TextView nomeCaderno;
+        ImageButton imagemCaderno;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tituloAnotacao = itemView.findViewById(R.id.nomeNoteList);
-            imagemNote = itemView.findViewById(R.id.imagemNote);
+            nomeCaderno = itemView.findViewById(R.id.nomeCadernoList);
+            imagemCaderno = itemView.findViewById(R.id.imagemCaderno);
         }
     }
 }

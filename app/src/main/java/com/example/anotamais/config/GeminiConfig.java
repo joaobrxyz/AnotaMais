@@ -1,4 +1,4 @@
-package com.example.anotamais;
+package com.example.anotamais.config;
 
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;

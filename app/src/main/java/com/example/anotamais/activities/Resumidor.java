@@ -1,6 +1,5 @@
-package com.example.anotamais;
+package com.example.anotamais.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +8,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.anotamais.BuildConfig;
+import com.example.anotamais.config.GeminiConfig;
+import com.example.anotamais.R;
 
 public class Resumidor extends AppCompatActivity implements View.OnClickListener {
     Button btResumirResumidor;

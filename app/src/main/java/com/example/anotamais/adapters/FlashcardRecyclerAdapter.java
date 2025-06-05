@@ -1,23 +1,21 @@
-package com.example.anotamais;
+package com.example.anotamais.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.anotamais.controllers.BancoControllerCard;
+import com.example.anotamais.models.FlashcardModel;
+import com.example.anotamais.R;
 
 import java.util.List;
 

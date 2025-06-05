@@ -16,26 +16,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Configuracoes"
+            android:name=".activities.Configuracoes"
             android:exported="false" />
         <activity
-            android:name=".Menu"
+            android:name=".activities.Flashcards"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.Login"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".activities.Notes"
             android:exported="false" />
+        <activity android:name=".activities.Caderno" />
         <activity
-            android:name=".Notes"
-            android:exported="false" />
-        <activity android:name=".Caderno" />
-        <activity
-            android:name=".Cadastro"
-            android:exported="false" />
-        <activity
-            android:name=".Flashcards"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Resumidor"
+            android:name=".activities.Resumidor"
             android:exported="false" />
     </application>
 

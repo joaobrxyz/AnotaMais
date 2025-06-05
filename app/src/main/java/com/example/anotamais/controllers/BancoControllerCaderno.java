@@ -1,30 +1,29 @@
-
-package com.example.anotamais;
+package com.example.anotamais.controllers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class BancoControllerCard {
+import com.example.anotamais.database.CriaBanco;
+
+public class BancoControllerCaderno {
     private SQLiteDatabase db;
     private CriaBanco banco;
 
-    public BancoControllerCard(Context context) {
+    public BancoControllerCaderno(Context context) {
         banco = new CriaBanco(context);
     }
 
 
-    public String insereDados(String pergunta, String resposta, int idNote) {
+    public String insereDados(String txtName) {
         ContentValues valores;
         long resultado;
         db = banco.getWritableDatabase();
 
         valores = new ContentValues();
-        valores.put("pergunta", pergunta);
-        valores.put("resposta", resposta);
-        valores.put("id_note", idNote);
-        resultado = db.insert("card", null, valores);
+        valores.put("name", txtName);
+        resultado = db.insert("caderno", null, valores);
         db.close();
 
         if (resultado == -1)
@@ -33,12 +32,12 @@ public class BancoControllerCard {
             return "Registro Inserido com sucesso";
     }
 
-    public Cursor carregaDadosPeloId(int id) {
+    public Cursor carregaDadosPeloNome(String name) {
         Cursor cursor;
-        String[] campos = { "pergunta", "resposta", "id_note" };
-        String where = "id="+id;
+        String[] campos = { "name" };
+        String where = "name="+name;
         db = banco.getReadableDatabase();
-        cursor = db.query("card", campos, where, null, null, null,
+        cursor = db.query("caderno", campos, where, null, null, null,
                 null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -48,54 +47,56 @@ public class BancoControllerCard {
         return cursor;
     }
 
-    public String alteraDados(int id, String pergunta, String resposta){
+    public String alteraDados(String name, String newName){
 
         String msg = "Dados alterados com sucesso!!!" ;
 
         db = banco.getReadableDatabase();
 
         ContentValues valores = new ContentValues() ;
-        valores.put("pergunta" , pergunta);
-        valores.put("resposta" , resposta);
+        valores.put("name" , newName ) ;
 
-        String condicao = "id = " + id;
+        String condicao = "name = " + name;
 
         int linha ;
-        linha = db.update("card", valores, condicao, null) ;
+        linha = db.update("caderno", valores, condicao, null) ;
 
         if (linha < 1){
-            msg = "Erro ao alterar os dados";
+            msg = "Erro ao alterar os dados" ;
         }
 
         db.close();
         return msg;
     }
 
-    public boolean excluirCard(long id) {
+    public boolean excluirCaderno(long id) {
         SQLiteDatabase db = banco.getWritableDatabase();
-        int linhasAfetadas = db.delete("card", "id = ?", new String[]{String.valueOf(id)});
+        int linhasAfetadas = db.delete("caderno", "id = ?", new String[]{String.valueOf(id)});
         db.close();
         return linhasAfetadas > 0;
     }
 
-    public Cursor carregaFlashcards() {
+    public Cursor carregaDadosPeloId(int id) {
         Cursor cursor;
-        String[] campos = { "id", "pergunta", "resposta" };
+        String[] campos = {"id", "name" };
+        String where = "id="+id;
         db = banco.getReadableDatabase();
-        cursor = db.query("card", campos, null, null, null, null,
+        cursor = db.query("caderno", campos, where, null, null, null,
                 null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        db.close(); // essa parte
+
+        db.close();
         return cursor;
     }
 
-    public Cursor listarCards() {
+    public Cursor listarCadernos() {
         Cursor cursor;
-        String[] campos = { "id", "pergunta", "resposta", "id_note" };
+        //SELECT idAgendamento, data, hora, email FROM agendamento
+        String[] campos = { "id", "name" };
         db = banco.getReadableDatabase();
-        cursor = db.query("card", campos, null, null, null, null,
+        cursor = db.query("caderno", campos, null, null, null, null,
                 null, null);
         if (cursor != null) {
             cursor.moveToFirst();

@@ -1,23 +1,24 @@
-package com.example.anotamais;
+package com.example.anotamais.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.anotamais.adapters.AnotacaoRecyclerAdapter;
+import com.example.anotamais.controllers.BancoControllerNote;
+import com.example.anotamais.models.NotaModel;
+import com.example.anotamais.R;
+
 import java.util.LinkedList;
 import java.util.List;
 

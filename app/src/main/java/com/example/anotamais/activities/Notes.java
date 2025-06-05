@@ -1,4 +1,4 @@
-package com.example.anotamais;
+package com.example.anotamais.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,6 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.anotamais.controllers.BancoControllerCaderno;
+import com.example.anotamais.controllers.BancoControllerCard;
+import com.example.anotamais.controllers.BancoControllerNote;
+import com.example.anotamais.BuildConfig;
+import com.example.anotamais.models.CadernoModel;
+import com.example.anotamais.config.GeminiConfig;
+import com.example.anotamais.models.NotaModel;
+import com.example.anotamais.R;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,9 +55,9 @@ public class Notes extends AppCompatActivity {
         idCaderno = getIntent().getIntExtra("idCaderno", 0);
         nomeCaderno = getIntent().getStringExtra("nomeCaderno");
 
-        recuperarPagina();
-
-
+        if (idPagina != 0) {
+            recuperarPagina();
+        }
 
 
         gemini = new GeminiConfig(BuildConfig.GEMINI_API_KEY);
@@ -111,14 +120,9 @@ public class Notes extends AppCompatActivity {
         });
 
         btSalvarFlashcard.setOnClickListener(v -> {
-            BancoControllerCaderno bancoControllerCaderno = new BancoControllerCaderno(getBaseContext());
-            bancoControllerCaderno.insereDados("Teste");
-
-            BancoControllerNote bancoControllerNote = new BancoControllerNote(getBaseContext());
-            bancoControllerNote.insereDados(txtTitulo.getText().toString(), txtConteudo.getText().toString(), 1);
 
             BancoControllerCard bancoControllerCard = new BancoControllerCard(getBaseContext());
-            bancoControllerCard.insereDados(txtPergunta.getText().toString(), txtResposta.getText().toString(), 1);
+            bancoControllerCard.insereDados(txtPergunta.getText().toString(), txtResposta.getText().toString(), idPagina);
 
             Toast.makeText(this, "Flashcard criada com sucesso!", Toast.LENGTH_LONG).show();
 
