@@ -40,7 +40,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btCriarMateriaMain, btCriarCaderno, btResumirAulaMain, btCardsMain;
-    ImageButton btConfigMain;
+    ImageButton btConfigMain, btFavoritosMain;
     TextView tvTituloMateria, nomeUsuarioMain;
     EditText txtCaderno;
     LinearLayout newCaderno;
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btResumirAulaMain = findViewById(R.id.btResumirAulaMain);
         btCardsMain = findViewById(R.id.btCardsMain);
         btConfigMain = findViewById(R.id.btConfigMain);
+        btFavoritosMain = findViewById(R.id.btFavoritosMain);
         tvTituloMateria = findViewById(R.id.tvTituloMateria);
         newCaderno = findViewById(R.id.newCaderno);
         txtCaderno = findViewById(R.id.txtCaderno);
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btResumirAulaMain.setOnClickListener(this);
         btCardsMain.setOnClickListener(this);
         btConfigMain.setOnClickListener(this);
+        btFavoritosMain.setOnClickListener(this);
 
         if (!bancoControllerUsuario.verificaIdExiste()) {
             Intent tela = new Intent(this, Login.class);
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List<CadernoModel> cadernos = new LinkedList<CadernoModel>();
 
         BancoControllerCaderno bd = new BancoControllerCaderno(getBaseContext());
-        Cursor dados = bd.listarCadernos();
+        Cursor dados = bd.listarCadernos(false);
 
         if (dados != null && dados.moveToFirst()) {
             do {
@@ -178,6 +180,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v.getId() == R.id.btConfigMain) {
             Intent tela = new Intent(this, Configuracoes.class);
+            startActivity(tela);
+        }
+        if (v.getId() == R.id.btFavoritosMain) {
+            Intent tela = new Intent(this, Favoritos.class);
             startActivity(tela);
         }
     }

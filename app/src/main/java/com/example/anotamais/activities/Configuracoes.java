@@ -16,7 +16,7 @@ import com.example.anotamais.controllers.BancoControllerUsuario;
 
 
 public class Configuracoes extends AppCompatActivity {
-    ImageButton btHomeConfiguracoes;
+    ImageButton btHomeConfiguracoes, BtFavoritosConfiguracoes;
     EditText newNameUser;
     TextView txtNomeUsuarioConfig;
     Button btAlterarNomeUser;
@@ -28,6 +28,7 @@ public class Configuracoes extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         btHomeConfiguracoes = findViewById(R.id.btHomeConfiguracoes);
+        BtFavoritosConfiguracoes = findViewById(R.id.BtFavoritosConfiguracoes);
         newNameUser = findViewById(R.id.newNameUser);
         btAlterarNomeUser = findViewById(R.id.btAlterarNomeUser);
         txtNomeUsuarioConfig = findViewById(R.id.txtNomeUsuarioConfig);
@@ -36,6 +37,10 @@ public class Configuracoes extends AppCompatActivity {
 
         btHomeConfiguracoes.setOnClickListener(v ->  {
             Intent tela = new Intent(Configuracoes.this, MainActivity.class);
+            startActivity(tela);
+        });
+        BtFavoritosConfiguracoes.setOnClickListener(v ->  {
+            Intent tela = new Intent(Configuracoes.this, Favoritos.class);
             startActivity(tela);
         });
 

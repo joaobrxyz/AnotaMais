@@ -107,12 +107,17 @@ public class BancoControllerCaderno {
         return cursor;
     }
 
-    public Cursor listarCadernos() {
+    public Cursor listarCadernos(Boolean filtrarFavoritos) {
         Cursor cursor;
         String[] campos = { "id", "name", "favorito" };
         db = banco.getReadableDatabase();
-        cursor = db.query("caderno", campos, null, null, null, null,
-                "favorito DESC", null);
+        if (filtrarFavoritos) {
+            cursor = db.query("caderno", campos, "favorito = 1", null, null, null,
+                    "favorito DESC", null);
+        } else {
+            cursor = db.query("caderno", campos, null, null, null, null,
+                    "favorito DESC", null);
+        }
         if (cursor != null) {
             cursor.moveToFirst();
         }

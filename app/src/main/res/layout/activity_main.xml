@@ -107,7 +107,7 @@
             android:layout_marginBottom="10dp">
 
             <ImageButton
-                android:id="@+id/BtFavoritos"
+                android:id="@+id/btFavoritosMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/heart"
