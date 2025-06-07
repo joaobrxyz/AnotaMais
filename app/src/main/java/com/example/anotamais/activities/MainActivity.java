@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -112,11 +113,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CadernoModel caderno = new CadernoModel();
                 caderno.setId(dados.getInt(0));
                 caderno.setNome(dados.getString(1));
+                if (dados.getInt(2) == 1) {
+                    caderno.setFavorito(true);
+                } else {
+                    caderno.setFavorito(false);
+                }
                 cadernos.add(caderno);
             } while (dados.moveToNext());
-        } else {
-            String msg = "Não há cadernos cadastrados";
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
         dados.close();
 
@@ -130,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
         listaCaderno.setLayoutManager(layoutManager);
         CadernoRecyclerAdapter adapter = new CadernoRecyclerAdapter(this, cadernos);
+        adapter.setOnCadernoFavoritoChangeListener(() -> {
+            listarCadernos();
+        });
         listaCaderno.setAdapter(adapter);
     }
 
