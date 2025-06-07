@@ -9,26 +9,32 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true" >
+        android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/imagemNote"
             android:layout_width="100dp"
             android:layout_height="133dp"
             android:src="@drawable/image_pag"
             android:scaleType="centerCrop"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:background="@android:color/transparent"/>
+        <TextView
+            android:id="@+id/dataAnotacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="01/01/2000"
+            android:layout_gravity="bottom"
+            android:padding="22px"
+            android:textSize="12dp"
+            />
         <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:text="Título da Página"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:textAlignment="center"
+            android:padding="10dp"
+            android:paddingTop="0dp"
             android:textStyle="bold"
             android:id="@+id/nomeNoteList"/>
     </FrameLayout>

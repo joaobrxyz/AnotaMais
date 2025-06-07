@@ -15,12 +15,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.anotamais.adapters.AnotacaoRecyclerAdapter;
+import com.example.anotamais.controllers.BancoControllerCaderno;
 import com.example.anotamais.controllers.BancoControllerNote;
 import com.example.anotamais.models.NotaModel;
 import com.example.anotamais.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class Caderno extends AppCompatActivity {
 
@@ -36,8 +40,13 @@ public class Caderno extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caderno);
 
-        nomeCaderno = getIntent().getStringExtra("nomeCaderno");
         idCaderno = getIntent().getIntExtra("idCaderno", 0);
+        BancoControllerCaderno bdCad = new BancoControllerCaderno(getBaseContext());
+        Cursor dados = bdCad.carregaDadosPeloId(idCaderno);
+        if (dados != null && dados.moveToFirst()) {
+            nomeCaderno = dados.getString(1);
+        }
+        dados.close();
 
         btCriarAnotacao = findViewById(R.id.btCriarAnotacao);
         btVoltarCaderno = findViewById(R.id.btVoltarCaderno);
@@ -54,9 +63,12 @@ public class Caderno extends AppCompatActivity {
         });
 
         btCriarAnotacao.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String dataFormatada = sdf.format(calendar.getTime());
             BancoControllerNote bd = new BancoControllerNote(getBaseContext());
             long id = -1;
-            id = bd.insereDados("Título da Página", "Conteúdo da Página", idCaderno);
+            id = bd.insereDados("Título da Página", "Conteúdo da Página", idCaderno, dataFormatada);
             if (id == -1) {
                 Toast.makeText(this, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
             } else {
@@ -98,12 +110,10 @@ public class Caderno extends AppCompatActivity {
                 nota.setTitulo(dados.getString(1));
                 nota.setConteudo(dados.getString(2));
                 nota.setIdCaderno(dados.getInt(3));
+                nota.setData(dados.getString(4));
                 nota.setNomeCaderno(nomeCaderno);
                 anotacoes.add(nota);
             } while (dados.moveToNext());
-        } else {
-            String msg = "Não há anotações cadastradas";
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
         dados.close();
 

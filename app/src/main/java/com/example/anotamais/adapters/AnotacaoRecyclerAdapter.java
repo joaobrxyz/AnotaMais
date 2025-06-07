@@ -40,6 +40,7 @@ public class AnotacaoRecyclerAdapter extends RecyclerView.Adapter<AnotacaoRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NotaModel nota = notas.get(position);
         holder.tituloAnotacao.setText(nota.getTitulo());
+        holder.dataAnotacao.setText(nota.getData());
 
         holder.imagemNote.setOnClickListener(v -> {
             Context context = v.getContext();
@@ -81,12 +82,13 @@ public class AnotacaoRecyclerAdapter extends RecyclerView.Adapter<AnotacaoRecycl
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tituloAnotacao;
+        TextView tituloAnotacao, dataAnotacao;
         ImageButton imagemNote;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tituloAnotacao = itemView.findViewById(R.id.nomeNoteList);
             imagemNote = itemView.findViewById(R.id.imagemNote);
+            dataAnotacao = itemView.findViewById(R.id.dataAnotacao);
         }
     }
 }

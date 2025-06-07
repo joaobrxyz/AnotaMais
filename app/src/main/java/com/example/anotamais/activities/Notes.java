@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +31,16 @@ import com.example.anotamais.config.GeminiConfig;
 import com.example.anotamais.models.NotaModel;
 import com.example.anotamais.R;
 
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class Notes extends AppCompatActivity {
 
-    ImageButton btVoltarNotes, btFlashCard;
-    Button btCriarPagina, btGerarComIa, btSalvarFlashcard;
+    ImageButton btVoltarNotes, btFlashCard, btnewPage;
+    Button btGerarComIa, btSalvarFlashcard;
     EditText txtTitulo, txtConteudo, txtPergunta, txtResposta;
     TextView txtTituloPagina, nomeCadernoNote;
     String nomeCaderno;
@@ -44,6 +48,9 @@ public class Notes extends AppCompatActivity {
     LinearLayout criarFlashcard, conteudoPrincipal;
     GeminiConfig gemini;
     int idPagina, idCaderno;
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    String dataFormatada = sdf.format(calendar.getTime());
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -62,9 +69,9 @@ public class Notes extends AppCompatActivity {
 
         gemini = new GeminiConfig(BuildConfig.GEMINI_API_KEY);
         btVoltarNotes = findViewById(R.id.btVoltarNotes);
-        //btSalvarNotes = findViewById(R.id.btSalvarNotes);
         btFlashCard = findViewById(R.id.btFlashCard);
         btGerarComIa = findViewById(R.id.btGerarComIa);
+        btnewPage = findViewById(R.id.btnewPage);
         conteudoPrincipal = findViewById(R.id.conteudoPrincipal);
         btSalvarFlashcard = findViewById(R.id.btSalvarFlashcard);
         btVoltarNotes = findViewById(R.id.btVoltarNotes);
@@ -83,6 +90,22 @@ public class Notes extends AppCompatActivity {
             intent.putExtra("idCaderno", idCaderno);
             intent.putExtra("nomeCaderno", nomeCaderno);
             context.startActivity(intent);
+        });
+
+        btnewPage.setOnClickListener(v -> {
+            BancoControllerNote bdN = new BancoControllerNote(getBaseContext());
+            long id = -1;
+            id = bdN.insereDados("Título da Página", "Conteúdo da Página", idCaderno, dataFormatada);
+            if (id == -1) {
+                Toast.makeText(this, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
+            } else {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, Notes.class);
+                int idPagina = (int) id;
+                intent.putExtra("idPagina", idPagina);
+                intent.putExtra("idCaderno", idCaderno);
+                context.startActivity(intent);
+            }
         });
 
 
@@ -117,12 +140,14 @@ public class Notes extends AppCompatActivity {
         btFlashCard.setOnClickListener(v -> {
             fundoPopup.setVisibility(View.VISIBLE);
             conteudoPrincipal.animate().alpha(0.3f).setDuration(200).start();
+            txtPergunta.setText("");
+            txtResposta.setText("");
         });
 
         btSalvarFlashcard.setOnClickListener(v -> {
 
             BancoControllerCard bancoControllerCard = new BancoControllerCard(getBaseContext());
-            bancoControllerCard.insereDados(txtPergunta.getText().toString(), txtResposta.getText().toString(), idPagina);
+            bancoControllerCard.insereDados(txtPergunta.getText().toString(), txtResposta.getText().toString(), idPagina, idCaderno);
 
             Toast.makeText(this, "Flashcard criada com sucesso!", Toast.LENGTH_LONG).show();
 
@@ -309,7 +334,7 @@ public class Notes extends AppCompatActivity {
         String novoConteudo = txtConteudo.getText().toString();
 
         BancoControllerNote bd = new BancoControllerNote(this);
-        bd.atualizarNota(idPagina, novoTitulo, novoConteudo);
+        bd.atualizarNota(idPagina, novoTitulo, novoConteudo, dataFormatada);
     }
 
 }

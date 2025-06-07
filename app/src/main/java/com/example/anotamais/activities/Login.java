@@ -1,8 +1,10 @@
 package com.example.anotamais.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
             BancoControllerUsuario bancoControllerUsuario = new BancoControllerUsuario(getBaseContext());
             bancoControllerUsuario.insereDados(nome);
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(txtNomeLogin.getWindowToken(), 0);
 
             Intent tela = new Intent(this, MainActivity.class);
             tela.putExtra("nomeUsuario", nome);

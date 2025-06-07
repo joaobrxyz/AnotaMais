@@ -97,6 +97,7 @@
                 android:text="Título"
                 android:inputType="textCapSentences"
                 android:textSize="23dp"
+                android:maxLength="20"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:background="@android:color/transparent"
@@ -104,17 +105,25 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="5dp" />
 
-            <EditText
-                android:id="@+id/txtConteudo"
+            <ScrollView
+                android:id="@+id/scrollConteudo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Anotações..."
-                android:inputType="textMultiLine"
-                android:gravity="top|start"
-                android:textSize="18dp"
-                android:layout_marginTop="7dp"
-                android:paddingLeft="5dp"
-                android:background="@android:color/transparent" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <EditText
+                    android:id="@+id/txtConteudo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Anotações..."
+                    android:inputType="textMultiLine"
+                    android:gravity="top|start"
+                    android:textSize="18dp"
+                    android:paddingLeft="5dp"
+                    android:background="@android:color/transparent"
+                    android:scrollbars="vertical" />
+            </ScrollView>
         </LinearLayout>
     </LinearLayout>
 

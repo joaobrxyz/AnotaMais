@@ -58,18 +58,26 @@
             android:paddingBottom="8dp"
             android:paddingLeft="5dp"/>
 
-        <EditText
-            android:id="@+id/txtAnotacoesResumidor"
+        <ScrollView
+            android:id="@+id/scrollConteudoResumidor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Anotações..."
-            android:inputType="textMultiLine"
-            android:gravity="top|start"
-            android:textSize="18dp"
-            android:layout_marginTop="7dp"
-            android:paddingLeft="5dp"
-            android:background="@android:color/transparent" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true" >
 
+            <EditText
+                android:id="@+id/txtAnotacoesResumidor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Anotações..."
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:textSize="18dp"
+                android:layout_marginTop="7dp"
+                android:paddingLeft="5dp"
+                android:background="@android:color/transparent" />
+
+            </ScrollView>
     </LinearLayout>
 
     <Button

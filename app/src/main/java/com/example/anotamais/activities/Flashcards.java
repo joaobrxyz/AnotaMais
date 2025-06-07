@@ -110,9 +110,6 @@ public class Flashcards extends AppCompatActivity {
                 card.setPaginaId(dados.getInt(3));
                 cards.add(card);
             } while (dados.moveToNext());
-        } else {
-            String msg = "Não há cadernos cadastrados";
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
         dados.close();
 
