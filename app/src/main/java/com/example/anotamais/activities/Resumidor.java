@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.anotamais.BuildConfig;
 import com.example.anotamais.config.GeminiConfig;
@@ -24,6 +25,7 @@ public class Resumidor extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumidor);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         // Inicializa o GeminiConfig com a API Key
         gemini = new GeminiConfig(BuildConfig.GEMINI_API_KEY);

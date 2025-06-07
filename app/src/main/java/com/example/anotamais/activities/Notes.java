@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.anotamais.controllers.BancoControllerCaderno;
 import com.example.anotamais.controllers.BancoControllerCard;
@@ -57,6 +58,7 @@ public class Notes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         idPagina = getIntent().getIntExtra("idPagina", 0);
         idCaderno = getIntent().getIntExtra("idCaderno", 0);

@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.example.anotamais.R;
 import com.example.anotamais.controllers.BancoControllerUsuario;
 
@@ -22,7 +24,8 @@ public class Configuracoes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_configuracoes); // Certifique-se que o nome do XML está correto
+        setContentView(R.layout.activity_configuracoes);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         btHomeConfiguracoes = findViewById(R.id.btHomeConfiguracoes);
         newNameUser = findViewById(R.id.newNameUser);
