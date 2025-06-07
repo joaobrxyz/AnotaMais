@@ -5,12 +5,13 @@
     android:id="@+id/favoritos"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="24dp">
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/tituloPaginaFav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
         android:layout_marginTop="30dp"
         android:accessibilityHeading="true"
         android:importantForAccessibility="yes"
@@ -26,6 +27,7 @@
         android:id="@+id/scrollCadernosFav"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginLeft="14dp"
         android:layout_marginTop="16dp"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/tituloPaginaFav"
