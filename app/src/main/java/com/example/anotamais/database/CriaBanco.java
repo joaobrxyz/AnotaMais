@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class CriaBanco extends SQLiteOpenHelper {
 
     private static final String NOME_BANCO = "anotamais.db";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 4;
     public CriaBanco(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
     }
@@ -21,16 +21,17 @@ public class CriaBanco extends SQLiteOpenHelper {
 
         sql = "CREATE TABLE caderno ("
                 + "id integer primary key autoincrement,"
-                + "name text)";
+                + "name text,"
+                + "favorito BOOLEAN NOT NULL DEFAULT FALSE)";
         db.execSQL(sql);
 
         sql = "CREATE TABLE note ("
                 + "id integer primary key autoincrement,"
                 + "titulo text,"
                 + "conteudo text,"
+                + "data text,"
                 + "id_caderno integer,"
-                + "FOREIGN KEY (id_caderno) REFERENCES caderno(id)"
-                + "ON DELETE CASCADE)";
+                + "FOREIGN KEY (id_caderno) REFERENCES caderno(id))";
         db.execSQL(sql);
 
         sql = "CREATE TABLE card ("
@@ -38,14 +39,18 @@ public class CriaBanco extends SQLiteOpenHelper {
                 + "pergunta text,"
                 + "resposta text,"
                 + "id_note integer,"
-                + "FOREIGN KEY (id_note) REFERENCES note(id)"
-                + "ON DELETE CASCADE)";
+                + "id_caderno integer,"
+                + "FOREIGN KEY (id_note) REFERENCES note(id),"
+                + "FOREIGN KEY (id_caderno) REFERENCES caderno(id))";
         db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS usuario");
+        db.execSQL("DROP TABLE IF EXISTS caderno");
+        db.execSQL("DROP TABLE IF EXISTS note");
+        db.execSQL("DROP TABLE IF EXISTS card");
         onCreate(db);
     }
 }

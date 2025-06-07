@@ -69,11 +69,27 @@ public class BancoControllerCaderno {
         return msg;
     }
 
+    public boolean favoritarCaderno(long id, int favorito) {
+        db = banco.getWritableDatabase();
+
+        ContentValues valores = new ContentValues();
+        valores.put("favorito", favorito);
+
+        int linhasAfetadas = db.update("caderno", valores, "id = ?", new String[]{String.valueOf(id)});
+
+        db.close();
+
+        return linhasAfetadas > 0;
+    }
+
+
     public boolean excluirCaderno(long id) {
         SQLiteDatabase db = banco.getWritableDatabase();
-        int linhasAfetadas = db.delete("caderno", "id = ?", new String[]{String.valueOf(id)});
+        int linhasAfetadasCard = db.delete("card", "id_caderno = ?", new String[]{String.valueOf(id)});
+        int linhasAfetadasNote = db.delete("note", "id_caderno = ?", new String[]{String.valueOf(id)});
+        int linhasAfetadasCaderno = db.delete("caderno", "id = ?", new String[]{String.valueOf(id)});
         db.close();
-        return linhasAfetadas > 0;
+        return linhasAfetadasCaderno + linhasAfetadasNote + linhasAfetadasCard > 0;
     }
 
     public Cursor carregaDadosPeloId(int id) {
@@ -93,11 +109,10 @@ public class BancoControllerCaderno {
 
     public Cursor listarCadernos() {
         Cursor cursor;
-        //SELECT idAgendamento, data, hora, email FROM agendamento
-        String[] campos = { "id", "name" };
+        String[] campos = { "id", "name", "favorito" };
         db = banco.getReadableDatabase();
         cursor = db.query("caderno", campos, null, null, null, null,
-                null, null);
+                "favorito DESC", null);
         if (cursor != null) {
             cursor.moveToFirst();
         }

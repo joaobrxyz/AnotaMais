@@ -6,6 +6,7 @@ public class NotaModel {
     public String titulo;
     public String conteudo;
     public String nomeCaderno;
+    public String data;
     public int idCaderno;
 
     public NotaModel(Integer id, String titulo, String conteudo, int idCaderno) {
@@ -57,5 +58,13 @@ public class NotaModel {
 
     public void setNomeCaderno(String nomeCaderno) {
         this.nomeCaderno = nomeCaderno;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

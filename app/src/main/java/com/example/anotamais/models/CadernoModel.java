@@ -4,6 +4,8 @@ public class CadernoModel {
     // modelo da tabela agendamento
     String nome;
     int id;
+    boolean favorito;
+
     //método construtor
     public CadernoModel() {}
     public CadernoModel(String nome){
@@ -25,5 +27,13 @@ public class CadernoModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
     }
 }

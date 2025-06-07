@@ -17,7 +17,7 @@ public class BancoControllerCard {
     }
 
 
-    public String insereDados(String pergunta, String resposta, int idNote) {
+    public String insereDados(String pergunta, String resposta, int idNote, int idCaderno) {
         ContentValues valores;
         long resultado;
         db = banco.getWritableDatabase();
@@ -26,6 +26,7 @@ public class BancoControllerCard {
         valores.put("pergunta", pergunta);
         valores.put("resposta", resposta);
         valores.put("id_note", idNote);
+        valores.put("id_caderno", idCaderno);
         resultado = db.insert("card", null, valores);
         db.close();
 
