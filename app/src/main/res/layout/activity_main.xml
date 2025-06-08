@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,42 +27,62 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp" />
 
-            <LinearLayout
+            <!-- Botões principais responsivos -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginLeft="5dp">
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="16dp">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
 
                 <Button
                     android:id="@+id/btCriarMateriaMain"
-                    android:layout_width="115dp"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:text="Criar matéria"
-                    android:layout_margin="3dp"
+                    android:layout_margin="4dp"
                     android:backgroundTint="#FEB342"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btResumirAulaMain"
+                    app:layout_constraintWidth_percent="0.32"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btResumirAulaMain"
-                    android:layout_width="115dp"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:text="Resumir aula"
                     android:layout_margin="4dp"
                     android:backgroundTint="#FEB342"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toEndOf="@id/btCriarMateriaMain"
+                    app:layout_constraintEnd_toStartOf="@+id/btCardsMain"
+                    app:layout_constraintWidth_percent="0.32"
+                    app:layout_constraintTop_toTopOf="@+id/btCriarMateriaMain" />
 
                 <Button
                     android:id="@+id/btCardsMain"
-                    android:layout_width="115dp"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:layout_margin="4dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="51dp"
-                    android:backgroundTint="#FEB342"
                     android:text="Cards"
-                    android:textColor="@color/black" />
-            </LinearLayout>
+                    android:layout_margin="4dp"
+                    android:backgroundTint="#FEB342"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toEndOf="@id/btResumirAulaMain"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintWidth_percent="0.32"
+                    app:layout_constraintTop_toTopOf="@+id/btCriarMateriaMain" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -178,6 +199,5 @@
                 android:paddingVertical="10dp" />
         </LinearLayout>
     </FrameLayout>
-
 
 </FrameLayout>

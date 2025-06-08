@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -87,12 +88,15 @@ public class Caderno extends AppCompatActivity {
     }
 
 
-    private void listarNotes(){
-        List<NotaModel> notas = null;
-        notas = consultaTodasAnotacoes();
+    private void listarNotes() {
+        List<NotaModel> notas = consultaTodasAnotacoes();
         listaAnotacao = findViewById(R.id.listaNotes);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+
+        int linhas = calcularLinhasPorAlturaTela();
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, linhas, GridLayoutManager.HORIZONTAL, false);
         listaAnotacao.setLayoutManager(layoutManager);
+
         AnotacaoRecyclerAdapter adapter = new AnotacaoRecyclerAdapter(this, notas);
         listaAnotacao.setAdapter(adapter);
     }
@@ -121,5 +125,22 @@ public class Caderno extends AppCompatActivity {
 
         return anotacoes;
     }
+
+    private int calcularLinhasPorAlturaTela() {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float screenHeightDp = metrics.heightPixels / metrics.density;
+
+        if (screenHeightDp >= 1000) {
+            return 6;
+        } else if (screenHeightDp >= 800) {
+            return 5;
+        } else if (screenHeightDp >= 600) {
+            return 3;
+        } else {
+            return 2; // padrão mínimo
+        }
+    }
+
+
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -86,10 +87,12 @@ public class Flashcards extends AppCompatActivity {
         });
     }
     private void listarCards(){
-        List<FlashcardModel> cards = null;
-        cards = consultaTodosCards();
+        List<FlashcardModel> cards = consultaTodosCards();
         listaCards = findViewById(R.id.listaFlashcards);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+
+        int colunas = calcularColunas();
+        GridLayoutManager layoutManager = new GridLayoutManager(this, colunas, GridLayoutManager.VERTICAL, false);
+
         listaCards.setLayoutManager(layoutManager);
         FlashcardRecyclerAdapter adapter = new FlashcardRecyclerAdapter(this, cards, fundoPopupFlashcards, conteudoPrincipalFlashcards, txtPerguntaResCard, txtRespostaCard);
         listaCards.setAdapter(adapter);
@@ -116,5 +119,18 @@ public class Flashcards extends AppCompatActivity {
         dados.close();
 
         return cards;
+    }
+
+    private int calcularColunas() {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float screenWidthDp = metrics.widthPixels / metrics.density;
+
+        if (screenWidthDp >= 1000) {
+            return 5;
+        } else if (screenWidthDp >= 600) {
+            return 4;
+        } else {
+            return 2;  // celular
+        }
     }
 }

@@ -131,15 +131,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void listarCadernos(){
-        List<CadernoModel> cadernos = null;
-        cadernos = consultaTodosCadernos();
+        List<CadernoModel> cadernos = consultaTodosCadernos();
         listaCaderno = findViewById(R.id.listaCaderno);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
+
+        int spanCount = getRowCountBasedOnScreenHeight();
+        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false);
         listaCaderno.setLayoutManager(layoutManager);
+
         CadernoRecyclerAdapter adapter = new CadernoRecyclerAdapter(this, cadernos);
-        adapter.setOnCadernoFavoritoChangeListener(() -> {
-            listarCadernos();
-        });
+        adapter.setOnCadernoFavoritoChangeListener(this::listarCadernos);
         listaCaderno.setAdapter(adapter);
     }
 
@@ -185,6 +185,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.btFavoritosMain) {
             Intent tela = new Intent(this, Favoritos.class);
             startActivity(tela);
+        }
+    }
+    private int getRowCountBasedOnScreenHeight() {
+        float dpHeight = getResources().getDisplayMetrics().heightPixels / getResources().getDisplayMetrics().density;
+
+        if (dpHeight >= 900) {
+            return 4; // tablet grande
+        } else if (dpHeight >= 500) {
+            return 2; // tablet pequeno / celular médio e grande
+        } else {
+            return 1; // celular pequeno
         }
     }
 }
