@@ -130,16 +130,17 @@ public class Caderno extends AppCompatActivity {
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         float screenHeightDp = metrics.heightPixels / metrics.density;
 
-        if (screenHeightDp >= 1000) {
-            return 6;
-        } else if (screenHeightDp >= 800) {
-            return 5;
+        if (screenHeightDp >= 1100) {
+            return 6; // tablets grandes (muito grande)
+        } else if (screenHeightDp >= 900) {
+            return 5; // tablets médios
         } else if (screenHeightDp >= 600) {
-            return 3;
+            return 3; // celulares grandes tipo S23 Ultra e Pixel 5
         } else {
-            return 2; // padrão mínimo
+            return 2; // celulares pequenos
         }
     }
+
 
 
 
