@@ -3,16 +3,18 @@ package com.example.anotamais.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MergeCursor;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.database.MatrixCursor;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +25,13 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.anotamais.adapters.CadernoCursorAdapter;
+import com.example.anotamais.controllers.BancoControllerCaderno;
 import com.example.anotamais.controllers.BancoControllerCard;
 import com.example.anotamais.models.FlashcardModel;
 import com.example.anotamais.adapters.FlashcardRecyclerAdapter;
 import com.example.anotamais.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,9 +39,10 @@ import java.util.List;
 public class Flashcards extends AppCompatActivity {
 
     ImageButton btVoltarFlashcard, btVoltarRespostaFlashcard;
-    TextView txtPerguntaResCard, txtRespostaCard, textoPlaceHolderFlashcards;
+    TextView txtPerguntaResCard, txtRespostaCard, textoPlaceHolderFlashcards, txtFiltro;
     RecyclerView listaCards;
-    LinearLayout conteudoPrincipalFlashcards;
+    LinearLayout conteudoPrincipalFlashcards, areaFiltro;
+    ListView listaOpcoesCadernos;
     FrameLayout fundoPopupFlashcards;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -54,13 +60,21 @@ public class Flashcards extends AppCompatActivity {
 
         btVoltarFlashcard = findViewById(R.id.btVoltarFlashcard);
         btVoltarRespostaFlashcard = findViewById(R.id.btVoltarRespostaFlashcard);
+        areaFiltro = findViewById(R.id.areaFiltro);
+        txtFiltro = findViewById(R.id.txtFiltroCaderno);
         txtPerguntaResCard = findViewById(R.id.txtPerguntaResCard);
         txtRespostaCard = findViewById(R.id.txtRespostaCard);
         textoPlaceHolderFlashcards = findViewById(R.id.textoPlaceHolderFlashcards);
+        listaOpcoesCadernos = findViewById(R.id.listaOpcoesCadernos);
         fundoPopupFlashcards = findViewById(R.id.fundoPopupFlashcards);
         conteudoPrincipalFlashcards = findViewById(R.id.conteudoPrincipalFlashcards);
 
-        listarCards();
+        areaFiltro.setOnClickListener(v -> {
+            abrirBottomSheetFiltro(); // ou o que você quiser que aconteça
+        });
+
+        listarCards(null);
+
 
         fundoPopupFlashcards.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -86,8 +100,8 @@ public class Flashcards extends AppCompatActivity {
             conteudoPrincipalFlashcards.animate().alpha(1f).setDuration(200).start();
         });
     }
-    private void listarCards(){
-        List<FlashcardModel> cards = consultaTodosCards();
+    private void listarCards(Integer idCaderno){
+        List<FlashcardModel> cards = consultaTodosCards(idCaderno);
         listaCards = findViewById(R.id.listaFlashcards);
 
         int colunas = calcularColunas();
@@ -98,11 +112,11 @@ public class Flashcards extends AppCompatActivity {
         listaCards.setAdapter(adapter);
     }
 
-    private List<FlashcardModel> consultaTodosCards() {
+    private List<FlashcardModel> consultaTodosCards(Integer idCaderno) {
         List<FlashcardModel> cards = new LinkedList<FlashcardModel>();
 
         BancoControllerCard bd = new BancoControllerCard(getBaseContext());
-        Cursor dados = bd.listarCards();
+        Cursor dados = bd.listarCards(idCaderno);
 
         if (dados != null && dados.moveToFirst()) {
             do {
@@ -132,5 +146,48 @@ public class Flashcards extends AppCompatActivity {
         } else {
             return 2;  // celular
         }
+    }
+    private void abrirBottomSheetFiltro() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(R.layout.bottomsheet_cadernos, null);
+
+        ListView listView = view.findViewById(R.id.listaOpcoesCadernos);
+
+        BancoControllerCaderno controller = new BancoControllerCaderno(this);
+        Cursor cursorOriginal = controller.listarCadernosComFlashcards();
+
+        // Cria um cursor com a linha "Todos os cadernos"
+        MatrixCursor cursorExtra = new MatrixCursor(new String[]{"_id", "name"});
+        cursorExtra.addRow(new Object[]{-1, "Todos os cadernos"});
+
+        // Junta o cursor extra com o original
+        Cursor[] cursors = {cursorExtra, cursorOriginal};
+        Cursor extendedCursor = new MergeCursor(cursors);
+
+        CadernoCursorAdapter adapter = new CadernoCursorAdapter(this, extendedCursor);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+            int idSelecionado = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+            String nomeSelecionado = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+
+            // Atualiza o texto do filtro com o nome do caderno
+            TextView txtFiltroCaderno = findViewById(R.id.txtFiltroCaderno);
+            txtFiltroCaderno.setText(nomeSelecionado);
+
+            bottomSheetDialog.dismiss();
+
+            if (idSelecionado == -1) {
+                // Selecionou todos os cadernos, carregar todos
+                listarCards(null);
+            } else {
+                // Filtra pelo id do caderno selecionado
+                listarCards(idSelecionado);
+            }
+        });
+
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.show();
     }
 }

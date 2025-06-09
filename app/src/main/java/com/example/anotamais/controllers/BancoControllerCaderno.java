@@ -125,4 +125,22 @@ public class BancoControllerCaderno {
         return cursor;
     }
 
+    public Cursor listarCadernosComFlashcards() {
+        db = banco.getReadableDatabase();
+
+        String query = "SELECT DISTINCT c.id AS _id, c.name " +
+                "FROM caderno c " +
+                "JOIN note n ON n.id_caderno = c.id " +
+                "JOIN card f ON f.id_note = n.id";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        db.close();
+        return cursor;
+    }
+
 }
