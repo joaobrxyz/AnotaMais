@@ -7,16 +7,34 @@
     android:layout_height="match_parent"
     tools:context=".activities.Resumidor"
     android:layout_margin="24dp"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical" >
 
-    <ImageButton
-        android:id="@+id/btVoltarResumidor"
-        android:layout_width="96dp"
-        android:layout_height="46dp"
-        android:src="@drawable/image_back"
-        android:background="@android:color/transparent"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btVoltarResumidor"
+            android:layout_width="96dp"
+            android:layout_height="46dp"
+            android:src="@drawable/image_back"
+            android:background="@android:color/transparent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/salvar_resumidor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/salvar_resumidor"
+            android:background="@android:color/transparent"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

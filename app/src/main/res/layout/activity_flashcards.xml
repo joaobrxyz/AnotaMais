@@ -42,6 +42,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="8dp"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:clickable="true"
             android:focusable="true">
 

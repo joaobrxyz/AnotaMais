@@ -42,7 +42,6 @@ public class Flashcards extends AppCompatActivity {
     TextView txtPerguntaResCard, txtRespostaCard, textoPlaceHolderFlashcards, txtFiltro;
     RecyclerView listaCards;
     LinearLayout conteudoPrincipalFlashcards, areaFiltro;
-    ListView listaOpcoesCadernos;
     FrameLayout fundoPopupFlashcards;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -65,7 +64,6 @@ public class Flashcards extends AppCompatActivity {
         txtPerguntaResCard = findViewById(R.id.txtPerguntaResCard);
         txtRespostaCard = findViewById(R.id.txtRespostaCard);
         textoPlaceHolderFlashcards = findViewById(R.id.textoPlaceHolderFlashcards);
-        listaOpcoesCadernos = findViewById(R.id.listaOpcoesCadernos);
         fundoPopupFlashcards = findViewById(R.id.fundoPopupFlashcards);
         conteudoPrincipalFlashcards = findViewById(R.id.conteudoPrincipalFlashcards);
 
@@ -121,6 +119,8 @@ public class Flashcards extends AppCompatActivity {
         if (dados != null && dados.moveToFirst()) {
             do {
                 TextView textoPlaceHolderFlashcards = findViewById(R.id.textoPlaceHolderFlashcards);
+                LinearLayout areaFiltro = findViewById(R.id.areaFiltro);
+                areaFiltro.setVisibility(View.VISIBLE);
                 textoPlaceHolderFlashcards.setVisibility(View.GONE);
                 FlashcardModel card = new FlashcardModel();
                 card.setId(dados.getInt(0));
