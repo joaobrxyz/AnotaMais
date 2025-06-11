@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/opcao_nova_pagina"
+        android:title="Criar nova página" />
+    <item
+        android:id="@+id/opcao_flashcards"
+        android:title="Visualizar flashcards" />
+    <item
+        android:id="@+id/opcao_excluir"
+        android:title="Excluir anotação" />
+</menu>

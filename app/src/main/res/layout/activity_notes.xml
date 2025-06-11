@@ -69,15 +69,15 @@
                 android:src="@drawable/image_flashcard" />
 
             <ImageButton
-                android:id="@+id/btnewPage"
+                android:id="@+id/btMenuOpcoes"
                 android:layout_width="wrap_content"
-                android:layout_height="63dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="Criar nova página"
                 android:clickable="true"
-                android:src="@drawable/image_newpage" />
+                android:src="@drawable/menu_notes" />
         </LinearLayout>
 
         <!-- Layout da anotação -->
@@ -98,7 +98,7 @@
                 android:text="Título"
                 android:inputType="textCapSentences"
                 android:textSize="23dp"
-                android:maxLength="20"
+                android:maxLength="18"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:background="@android:color/transparent"

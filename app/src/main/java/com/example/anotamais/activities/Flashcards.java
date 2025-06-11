@@ -43,6 +43,8 @@ public class Flashcards extends AppCompatActivity {
     RecyclerView listaCards;
     LinearLayout conteudoPrincipalFlashcards, areaFiltro;
     FrameLayout fundoPopupFlashcards;
+    int idPagina, idCaderno;
+    String nomeCaderno;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -56,6 +58,10 @@ public class Flashcards extends AppCompatActivity {
             return insets;
         });
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        idPagina = getIntent().getIntExtra("idPagina", 0);
+        idCaderno = getIntent().getIntExtra("idCaderno", 0);
+        nomeCaderno = getIntent().getStringExtra("nomeCaderno");
 
         btVoltarFlashcard = findViewById(R.id.btVoltarFlashcard);
         btVoltarRespostaFlashcard = findViewById(R.id.btVoltarRespostaFlashcard);
@@ -71,7 +77,11 @@ public class Flashcards extends AppCompatActivity {
             abrirBottomSheetFiltro(); // ou o que você quiser que aconteça
         });
 
-        listarCards(null);
+        if (idPagina != 0) {
+            textoPlaceHolderFlashcards.setText("Nenhum flashcard criado nessa anotação.");
+        }
+
+        listarCards(null, idPagina);
 
 
         fundoPopupFlashcards.setOnTouchListener((v, event) -> {
@@ -88,18 +98,29 @@ public class Flashcards extends AppCompatActivity {
             return false;
         });
 
-        btVoltarFlashcard.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        });
+        if (idPagina == 0) {
+            btVoltarFlashcard.setOnClickListener(v -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            });
+        } else {
+            btVoltarFlashcard.setOnClickListener(v -> {
+                Intent intent = new Intent(this, Notes.class);
+                intent.putExtra("idPagina", idPagina);
+                intent.putExtra("idCaderno", idCaderno);
+                intent.putExtra("nomeCaderno", nomeCaderno);
+                startActivity(intent);
+            });
+        }
+
 
         btVoltarRespostaFlashcard.setOnClickListener(v -> {
             fundoPopupFlashcards.setVisibility(View.GONE);
             conteudoPrincipalFlashcards.animate().alpha(1f).setDuration(200).start();
         });
     }
-    private void listarCards(Integer idCaderno){
-        List<FlashcardModel> cards = consultaTodosCards(idCaderno);
+    private void listarCards(Integer idCaderno, Integer idPagina){
+        List<FlashcardModel> cards = consultaTodosCards(idCaderno, idPagina);
         listaCards = findViewById(R.id.listaFlashcards);
 
         int colunas = calcularColunas();
@@ -110,17 +131,19 @@ public class Flashcards extends AppCompatActivity {
         listaCards.setAdapter(adapter);
     }
 
-    private List<FlashcardModel> consultaTodosCards(Integer idCaderno) {
+    private List<FlashcardModel> consultaTodosCards(Integer idCaderno, Integer idPagina) {
         List<FlashcardModel> cards = new LinkedList<FlashcardModel>();
 
         BancoControllerCard bd = new BancoControllerCard(getBaseContext());
-        Cursor dados = bd.listarCards(idCaderno);
+        Cursor dados = bd.listarCards(idCaderno, idPagina);
 
         if (dados != null && dados.moveToFirst()) {
             do {
+                if (idPagina == 0) {
+                    LinearLayout areaFiltro = findViewById(R.id.areaFiltro);
+                    areaFiltro.setVisibility(View.VISIBLE);
+                }
                 TextView textoPlaceHolderFlashcards = findViewById(R.id.textoPlaceHolderFlashcards);
-                LinearLayout areaFiltro = findViewById(R.id.areaFiltro);
-                areaFiltro.setVisibility(View.VISIBLE);
                 textoPlaceHolderFlashcards.setVisibility(View.GONE);
                 FlashcardModel card = new FlashcardModel();
                 card.setId(dados.getInt(0));
@@ -180,10 +203,10 @@ public class Flashcards extends AppCompatActivity {
 
             if (idSelecionado == -1) {
                 // Selecionou todos os cadernos, carregar todos
-                listarCards(null);
+                listarCards(null, idPagina);
             } else {
                 // Filtra pelo id do caderno selecionado
-                listarCards(idSelecionado);
+                listarCards(idSelecionado, idPagina);
             }
         });
 

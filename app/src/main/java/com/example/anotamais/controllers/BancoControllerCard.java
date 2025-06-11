@@ -94,7 +94,7 @@ public class BancoControllerCard {
         return cursor;
     }
 
-    public Cursor listarCards(Integer idCaderno) {
+    public Cursor listarCards(Integer idCaderno, Integer idNote) {
         Cursor cursor;
         String[] campos = { "id", "pergunta", "resposta", "id_note", "id_caderno" };
         db = banco.getReadableDatabase();
@@ -104,14 +104,18 @@ public class BancoControllerCard {
             String[] whereArgs = { String.valueOf(idCaderno) };
             cursor = db.query("card", campos, where, whereArgs, null, null, null);
         } else {
-            cursor = db.query("card", campos, null, null, null, null, null);
+            if (idNote != 0) {
+                String where = "id_note = ?";
+                String[] whereArgs = { String.valueOf(idNote) };
+                cursor = db.query("card", campos, where, whereArgs, null, null, null);
+            } else {
+                cursor = db.query("card", campos, null, null, null, null, null);
+            }
         }
 
         if (cursor != null) {
             cursor.moveToFirst();
         }
-
-        // NÃO FECHAR O DB AQUI — deve fechar depois que terminar de usar o cursor
 
         return cursor;
     }

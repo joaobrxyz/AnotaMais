@@ -1,6 +1,7 @@
 package com.example.anotamais.activities;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +42,7 @@ import java.util.Locale;
 
 public class Notes extends AppCompatActivity {
 
-    ImageButton btVoltarNotes, btFlashCard, btnewPage;
+    ImageButton btVoltarNotes, btFlashCard, btnewPage, btMenuOpcoes;
     Button btGerarComIa, btSalvarFlashcard;
     EditText txtTitulo, txtConteudo, txtPergunta, txtResposta;
     TextView txtTituloPagina, nomeCadernoNote;
@@ -73,7 +75,7 @@ public class Notes extends AppCompatActivity {
         btVoltarNotes = findViewById(R.id.btVoltarNotes);
         btFlashCard = findViewById(R.id.btFlashCard);
         btGerarComIa = findViewById(R.id.btGerarComIa);
-        btnewPage = findViewById(R.id.btnewPage);
+        btMenuOpcoes = findViewById(R.id.btMenuOpcoes);
         conteudoPrincipal = findViewById(R.id.conteudoPrincipal);
         btSalvarFlashcard = findViewById(R.id.btSalvarFlashcard);
         btVoltarNotes = findViewById(R.id.btVoltarNotes);
@@ -94,23 +96,35 @@ public class Notes extends AppCompatActivity {
             context.startActivity(intent);
         });
 
-        btnewPage.setOnClickListener(v -> {
-            BancoControllerNote bdN = new BancoControllerNote(getBaseContext());
-            long id = -1;
-            id = bdN.insereDados("Título da Página", "Conteúdo da Página", idCaderno, dataFormatada);
-            if (id == -1) {
-                Toast.makeText(this, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
-            } else {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, Notes.class);
-                int idPagina = (int) id;
-                intent.putExtra("idPagina", idPagina);
-                intent.putExtra("idCaderno", idCaderno);
-                context.startActivity(intent);
-            }
+        btMenuOpcoes.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(this, v);
+            popup.getMenuInflater().inflate(R.menu.menu_opcoes_notes, popup.getMenu());
+
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+
+                if (id == R.id.opcao_nova_pagina) {
+                    criarNovaPagina();
+                    return true;
+                } else if (id == R.id.opcao_flashcards) {
+                    visualizarFlashcards();
+                    return true;
+                } else if (id == R.id.opcao_excluir) {
+                    new AlertDialog.Builder(Notes.this)
+                            .setTitle("Confirmar exclusão")
+                            .setMessage("Tem certeza que deseja excluir essa anotação?")
+                            .setPositiveButton("Sim", (dialog, which) -> {
+                                excluirAnotacao(); // seu método de exclusão
+                            })
+                            .setNegativeButton("Cancelar", null)
+                            .show();
+                    return true;
+                }
+
+                return false;
+            });
+            popup.show();
         });
-
-
 
         txtTitulo.addTextChangedListener(new TextWatcher() {
             @Override
@@ -337,6 +351,38 @@ public class Notes extends AppCompatActivity {
 
         BancoControllerNote bd = new BancoControllerNote(this);
         bd.atualizarNota(idPagina, novoTitulo, novoConteudo, dataFormatada);
+    }
+
+    private void criarNovaPagina() {
+        BancoControllerNote bdN = new BancoControllerNote(getBaseContext());
+        long id = -1;
+        id = bdN.insereDados("Título da Página", "Conteúdo da Página", idCaderno, dataFormatada);
+        if (id == -1) {
+            Toast.makeText(this, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
+        } else {
+            Intent intent = new Intent(this, Notes.class);
+            int idPagina = (int) id;
+            intent.putExtra("idPagina", idPagina);
+            intent.putExtra("idCaderno", idCaderno);
+            startActivity(intent);
+        }
+    }
+
+    private void visualizarFlashcards() {
+        Intent intent = new Intent(this, Flashcards.class);
+        intent.putExtra("idPagina", idPagina);
+        intent.putExtra("idCaderno", idCaderno);
+        intent.putExtra("nomeCaderno", nomeCaderno);
+        startActivity(intent);
+    }
+
+    private void excluirAnotacao() {
+        BancoControllerNote bd = new BancoControllerNote(getBaseContext());
+        bd.excluirNota(idPagina);
+        finish();
+        Intent intent = new Intent(this, Caderno.class);
+        intent.putExtra("idCaderno", idCaderno);
+        startActivity(intent);
     }
 
 }
