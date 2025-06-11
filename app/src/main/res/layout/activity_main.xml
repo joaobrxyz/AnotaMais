@@ -47,42 +47,43 @@
                     android:id="@+id/btCriarMateriaMain"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:text="Criar matéria"
-                    android:layout_margin="4dp"
                     android:backgroundTint="#FEB342"
+                    android:text="Criar matéria"
                     android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btResumirAulaMain"
-                    app:layout_constraintWidth_percent="0.32"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.315" />
 
                 <Button
                     android:id="@+id/btResumirAulaMain"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:text="Resumir aula"
-                    android:layout_margin="4dp"
                     android:backgroundTint="#FEB342"
+                    android:text="Resumir aula"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toEndOf="@id/btCriarMateriaMain"
                     app:layout_constraintEnd_toStartOf="@+id/btCardsMain"
-                    app:layout_constraintWidth_percent="0.32"
-                    app:layout_constraintTop_toTopOf="@+id/btCriarMateriaMain" />
+                    app:layout_constraintTop_toTopOf="@id/btCriarMateriaMain"
+                    app:layout_constraintBottom_toBottomOf="@id/btCriarMateriaMain"
+                    app:layout_constraintWidth_percent="0.315" />
 
                 <Button
                     android:id="@+id/btCardsMain"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:text="Cards"
-                    android:layout_margin="4dp"
                     android:backgroundTint="#FEB342"
+                    android:text="Cards"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toEndOf="@id/btResumirAulaMain"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintWidth_percent="0.32"
-                    app:layout_constraintTop_toTopOf="@+id/btCriarMateriaMain" />
+                    app:layout_constraintTop_toTopOf="@id/btCriarMateriaMain"
+                    app:layout_constraintBottom_toBottomOf="@id/btCriarMateriaMain"
+                    app:layout_constraintWidth_percent="0.315" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -104,6 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:scrollbars="horizontal"
                     android:padding="8dp"/>
             </LinearLayout>
 

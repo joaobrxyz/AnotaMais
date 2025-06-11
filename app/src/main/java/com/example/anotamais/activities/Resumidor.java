@@ -62,8 +62,16 @@ public class Resumidor extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         if (v.getId() == R.id.btResumirResumidor) {
             String texto = txtAnotacoesResumidor.getText().toString();
+
+            // Verifica se o texto está vazio
             if (texto.isEmpty()) {
                 Toast.makeText(this, "Digite algo primeiro", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Verifica se o texto é muito curto
+            if (texto.length() < 150) {
+                Toast.makeText(this, "O conteúdo do texto é muito curto. Insira pelo menos 150 caracteres.", Toast.LENGTH_LONG).show();
                 return;
             }
 

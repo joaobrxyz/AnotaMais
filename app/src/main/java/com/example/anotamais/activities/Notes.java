@@ -172,14 +172,24 @@ public class Notes extends AppCompatActivity {
         });
 
         btGerarComIa.setOnClickListener(v -> {
+            String textoConteudo = txtConteudo.getText().toString();
+
+            if (textoConteudo.isEmpty()) {
+                Toast.makeText(Notes.this, "O conteúdo do texto está vazio. Insira pelo menos um texto.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (textoConteudo.length() < 150) {
+                Toast.makeText(Notes.this, "O conteúdo do texto é muito curto. Insira pelo menos 150 caracteres.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             txtPergunta.setText("Processando...");
             txtResposta.setText("Processando...");
             btSalvarFlashcard.setEnabled(false);
             btGerarComIa.setEnabled(false);
 
             BancoControllerCard bancoControllerCard = new BancoControllerCard(getBaseContext());
-
-            String textoConteudo = txtConteudo.getText().toString();
 
             String promptPergunta = "Estou te utilizando como api em um projeto, então quero que vc apenas retorne oq eu pedir, sem vc falar nada. Estou gerando um flashcard, onde tem uma pergunta curta e uma resposta curta, nesse prompt quero que vc retorne apenas uma pergunta sobre essa aula (Lembre-se, pergunta curta!! com no máximo 80 caracteres): " + textoConteudo + " (Faça perguntas diferentes dessas, pois já foram criadas: " + consultaTodasAsPerguntasDosFlashcards();
 
@@ -300,7 +310,7 @@ public class Notes extends AppCompatActivity {
 
 
         BancoControllerCard bd = new BancoControllerCard(getBaseContext());
-        Cursor dados = bd.carregaFlashcards();
+        Cursor dados = bd.listarCards(null, idPagina);
 
 
         if (dados != null && dados.moveToFirst()) {
@@ -309,9 +319,6 @@ public class Notes extends AppCompatActivity {
                 item = dados.getString(1);
                 lista.add(item);
             } while (dados.moveToNext());
-        }else{
-            String msg = "Não há perguntas de flashcard criada";
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         }
         return lista;
     }
