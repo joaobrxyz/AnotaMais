@@ -1,39 +1,26 @@
 package com.example.anotamais.activities;
 
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.anotamais.adapters.AnotacaoRecyclerAdapter;
 import com.example.anotamais.controllers.BancoControllerCaderno;
-import com.example.anotamais.controllers.BancoControllerNote;
-import com.example.anotamais.models.NotaModel;
+import com.example.anotamais.controllers.CadernoController;
 import com.example.anotamais.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
 
 public class Caderno extends AppCompatActivity {
 
-    private Button btCriarAnotacao;
+    // Declaração dos componentes da interface
+    Button btCriarAnotacao;
     TextView textoPlaceHolderCaderno, nomeCadernoCaderno;
     RecyclerView listaAnotacao;
     ImageButton btVoltarCaderno;
+
+    // Variáveis para armazenar os dados do caderno atual
     String nomeCaderno;
     int idCaderno;
 
@@ -41,111 +28,38 @@ public class Caderno extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caderno);
+
+        // Define o modo claro (sem dark mode)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        // Recupera o ID do caderno passado pela intent
         idCaderno = getIntent().getIntExtra("idCaderno", 0);
+
+        // Busca o nome do caderno no banco de dados usando o ID
         BancoControllerCaderno bdCad = new BancoControllerCaderno(getBaseContext());
         Cursor dados = bdCad.carregaDadosPeloId(idCaderno);
         if (dados != null && dados.moveToFirst()) {
-            nomeCaderno = dados.getString(1);
+            nomeCaderno = dados.getString(1); // Posição 1 = nome do caderno
         }
         dados.close();
 
+        // Referencia os elementos da UI
         btCriarAnotacao = findViewById(R.id.btCriarAnotacao);
         btVoltarCaderno = findViewById(R.id.btVoltarCaderno);
         textoPlaceHolderCaderno = findViewById(R.id.textoPlaceHolderCaderno);
         nomeCadernoCaderno = findViewById(R.id.nomeCadernoCaderno);
-        nomeCadernoCaderno.setText("Caderno: " + nomeCaderno);
-
-        listarNotes();
-
-        btVoltarCaderno.setOnClickListener(v -> {
-            Context context = v.getContext();
-            Intent intent = new Intent(context, MainActivity.class);
-            context.startActivity(intent);
-        });
-
-        btCriarAnotacao.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            String dataFormatada = sdf.format(calendar.getTime());
-            BancoControllerNote bd = new BancoControllerNote(getBaseContext());
-            long id = -1;
-            id = bd.insereDados("Título da Página", "Conteúdo da Página", idCaderno, dataFormatada);
-            if (id == -1) {
-                Toast.makeText(this, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
-            } else {
-                listarNotes();
-                Context context = v.getContext();
-                Intent intent = new Intent(context, Notes.class);
-                int idPagina = (int) id;
-                intent.putExtra("idPagina", idPagina);
-                intent.putExtra("idCaderno", idCaderno);
-                context.startActivity(intent);
-            }
-        });
-
-    }
-
-
-    private void listarNotes() {
-        List<NotaModel> notas = consultaTodasAnotacoes();
         listaAnotacao = findViewById(R.id.listaNotes);
 
-        int linhas = calcularLinhasPorAlturaTela();
+        // Atualiza o TextView com o nome do caderno atual
+        nomeCadernoCaderno.setText("Caderno: " + nomeCaderno);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, linhas, GridLayoutManager.HORIZONTAL, false);
-        listaAnotacao.setLayoutManager(layoutManager);
+        // Lista todas as anotações desse caderno no RecyclerView
+        CadernoController.listarNotes(this, listaAnotacao, idCaderno, nomeCaderno);
 
-        AnotacaoRecyclerAdapter adapter = new AnotacaoRecyclerAdapter(this, notas);
-        listaAnotacao.setAdapter(adapter);
+        // Configura o botão de voltar para retornar à tela anterior
+        CadernoController.voltarCaderno(this, btVoltarCaderno);
+
+        // Configura o botão para criar uma nova anotação dentro desse caderno
+        CadernoController.CriarAnotacao(this, btCriarAnotacao, idCaderno, nomeCaderno);
     }
-
-    private List<NotaModel> consultaTodasAnotacoes() {
-        List<NotaModel> anotacoes = new LinkedList<>();
-
-        BancoControllerNote bd = new BancoControllerNote(getBaseContext());
-        Cursor dados = bd.listarNotes(idCaderno);
-
-        if (dados != null && dados.moveToFirst()) {
-            do {
-                TextView textoPlaceholderCaderno = findViewById(R.id.textoPlaceHolderCaderno);
-                textoPlaceholderCaderno.setVisibility(View.GONE);
-                NotaModel nota = new NotaModel();
-                nota.setId(dados.getInt(0));
-                nota.setTitulo(dados.getString(1));
-                nota.setConteudo(dados.getString(2));
-                nota.setIdCaderno(dados.getInt(3));
-                nota.setData(dados.getString(4));
-                nota.setNomeCaderno(nomeCaderno);
-                anotacoes.add(nota);
-            } while (dados.moveToNext());
-        }
-        dados.close();
-
-        return anotacoes;
-    }
-
-    private int calcularLinhasPorAlturaTela() {
-        // Obtém a altura da tela em Density-Independent Pixels (dp)
-        float screenHeightDp = getResources().getDisplayMetrics().heightPixels / getResources().getDisplayMetrics().density;
-
-        // Define o número de linhas com base na altura da tela em dp
-        if (screenHeightDp >= 1540) {
-            return 9; // Telas excepcionalmente grandes
-        } else if (screenHeightDp >= 1400) {
-            return 8; // Telas muito grandes
-        } else if (screenHeightDp >= 1260) {
-            return 7; // Tablets maiores
-        }  else if (screenHeightDp >= 1120) {
-            return 6; // Tablets grandes
-        } else if (screenHeightDp >= 980) {
-            return 5; // Tablets médios
-        } else if (screenHeightDp >= 840) {
-            return 4; // Celulares grandes
-        } else {
-            return 3; // Celulares pequenos/padrão
-        }
-    }
-
 }
