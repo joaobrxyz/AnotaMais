@@ -46,7 +46,7 @@
                 <Button
                     android:id="@+id/btCriarMateriaMain"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="61dp"
                     android:backgroundTint="#FEB342"
                     android:text="Criar matéria"
                     android:textColor="@color/black"
@@ -59,7 +59,7 @@
                 <Button
                     android:id="@+id/btResumirAulaMain"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="61dp"
                     android:backgroundTint="#FEB342"
                     android:text="Resumir aula"
                     android:textColor="@color/black"
@@ -72,7 +72,7 @@
                 <Button
                     android:id="@+id/btCardsMain"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="61dp"
                     android:backgroundTint="#FEB342"
                     android:text="Cards"
                     android:textColor="@color/black"
@@ -127,7 +127,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:id="@+id/rodapeMain">
 
             <ImageButton
                 android:id="@+id/btFavoritosMain"

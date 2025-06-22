@@ -127,21 +127,25 @@ public class Caderno extends AppCompatActivity {
     }
 
     private int calcularLinhasPorAlturaTela() {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float screenHeightDp = metrics.heightPixels / metrics.density;
+        // Obtém a altura da tela em Density-Independent Pixels (dp)
+        float screenHeightDp = getResources().getDisplayMetrics().heightPixels / getResources().getDisplayMetrics().density;
 
-        if (screenHeightDp >= 1100) {
-            return 6; // tablets grandes (muito grande)
-        } else if (screenHeightDp >= 900) {
-            return 5; // tablets médios
-        } else if (screenHeightDp >= 600) {
-            return 3; // celulares grandes tipo S23 Ultra e Pixel 5
+        // Define o número de linhas com base na altura da tela em dp
+        if (screenHeightDp >= 1540) {
+            return 9; // Telas excepcionalmente grandes
+        } else if (screenHeightDp >= 1400) {
+            return 8; // Telas muito grandes
+        } else if (screenHeightDp >= 1260) {
+            return 7; // Tablets maiores
+        }  else if (screenHeightDp >= 1120) {
+            return 6; // Tablets grandes
+        } else if (screenHeightDp >= 980) {
+            return 5; // Tablets médios
+        } else if (screenHeightDp >= 840) {
+            return 4; // Celulares grandes
         } else {
-            return 2; // celulares pequenos
+            return 3; // Celulares pequenos/padrão
         }
     }
-
-
-
 
 }

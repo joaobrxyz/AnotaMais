@@ -1,10 +1,13 @@
 package com.example.anotamais.activities;
+import static com.example.anotamais.controllers.MainController.adjustLayoutForScreenHeight;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ public class Configuracoes extends AppCompatActivity {
     EditText newNameUser;
     TextView txtNomeUsuarioConfig;
     Button btAlterarNomeUser;
+    LinearLayout rodapeConfiguracoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +33,12 @@ public class Configuracoes extends AppCompatActivity {
 
         btHomeConfiguracoes = findViewById(R.id.btHomeConfiguracoes);
         BtFavoritosConfiguracoes = findViewById(R.id.BtFavoritosConfiguracoes);
+        rodapeConfiguracoes = findViewById(R.id.rodapeConfiguracoes);
         newNameUser = findViewById(R.id.newNameUser);
         btAlterarNomeUser = findViewById(R.id.btAlterarNomeUser);
         txtNomeUsuarioConfig = findViewById(R.id.txtNomeUsuarioConfig);
 
+        int rowCountIgnored = adjustLayoutForScreenHeight(this, rodapeConfiguracoes);
         carregarNome();
 
         btHomeConfiguracoes.setOnClickListener(v ->  {

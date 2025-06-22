@@ -1,10 +1,13 @@
 package com.example.anotamais.activities;
 
+import static com.example.anotamais.controllers.MainController.adjustLayoutForScreenHeight;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +31,7 @@ public class Favoritos extends AppCompatActivity {
     TextView textoPlaceHolderCadernoFav;
     RecyclerView listaCadernoFav;
     ImageButton btHomeFavoritos, btConfigFavoritos;
+    LinearLayout rodapeFavoritos;
 
 
     @Override
@@ -45,8 +49,11 @@ public class Favoritos extends AppCompatActivity {
         listaCadernoFav = findViewById(R.id.listaCadernoFav);
         btHomeFavoritos = findViewById(R.id.btHomeFavoritos);
         btConfigFavoritos = findViewById(R.id.btConfigFavoritos);
+        rodapeFavoritos = findViewById(R.id.rodapeFavoritos);
 
         listarCadernos();
+
+        adjustLayoutForScreenHeight(this, rodapeFavoritos);
 
         btHomeFavoritos.setOnClickListener(view -> {
             Intent intent = new Intent(Favoritos.this, MainActivity.class);

@@ -1,7 +1,9 @@
 package com.example.anotamais.activities;
 
 import static android.view.View.GONE;
+import static com.example.anotamais.controllers.MainController.adjustLayoutForScreenHeight;
 
+import android.util.TypedValue;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton btConfigMain, btFavoritosMain;
     TextView tvTituloMateria, nomeUsuarioMain;
     EditText txtCaderno;
-    LinearLayout newCaderno;
+    LinearLayout newCaderno, rodapeMain;
     RecyclerView listaCaderno;
     FrameLayout fundoPopupMain;
     Cursor nomeUsuario;
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             nomeUsuarioMain.setText("Olá, " + nomeUsuario.getString(1) + " 👋");
         }
 
-        listarCadernos();
+
 
         btCriarMateriaMain = findViewById(R.id.btCriarMateriaMain);
         btCriarCaderno = findViewById(R.id.btCriarCaderno);
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtCaderno = findViewById(R.id.txtCaderno);
         btCriarCaderno = findViewById(R.id.btCriarCaderno);
         fundoPopupMain = findViewById(R.id.fundoPopupMain);
+        rodapeMain = findViewById(R.id.rodapeMain);
+
+        listarCadernos();
 
         tvTituloMateria.setVisibility(GONE);
 
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List<CadernoModel> cadernos = consultaTodosCadernos();
         listaCaderno = findViewById(R.id.listaCaderno);
 
-        int spanCount = getRowCountBasedOnScreenHeight();
+        int spanCount = adjustLayoutForScreenHeight(this, rodapeMain);
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false);
         listaCaderno.setLayoutManager(layoutManager);
 
@@ -187,15 +193,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(tela);
         }
     }
-    private int getRowCountBasedOnScreenHeight() {
-        float dpHeight = getResources().getDisplayMetrics().heightPixels / getResources().getDisplayMetrics().density;
 
-        if (dpHeight >= 900) {
-            return 4; // tablet grande
-        } else if (dpHeight >= 500) {
-            return 2; // tablet pequeno / celular médio e grande
-        } else {
-            return 1; // celular pequeno
-        }
-    }
 }
