@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "224544191905",
+    "project_id": "anotamais-3bb8b",
+    "storage_bucket": "anotamais-3bb8b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224544191905:android:cfe01b3d058fb2dc67c7e0",
+        "android_client_info": {
+          "package_name": "com.example.anotamais"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224544191905-r0iqo4pnh345kmvgs8tbh5p8n9qpghk4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anotamais",
+            "certificate_hash": "6db1c9a18c01af602401a04998901c3a51325f56"
+          }
+        },
+        {
+          "client_id": "224544191905-eqs9iai47qok60duf1ndue4aif75ft22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEvE6TQwBqBt1HRo2zvfelj9kZjXuj75U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224544191905-eqs9iai47qok60duf1ndue4aif75ft22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

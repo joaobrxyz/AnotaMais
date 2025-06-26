@@ -46,8 +46,9 @@ public class AnotacaoRecyclerAdapter extends RecyclerView.Adapter<AnotacaoRecycl
             Context context = v.getContext();
             Intent intent = new Intent(context, Notes.class);
             intent.putExtra("idPagina", nota.getId());
-            intent.putExtra("idCaderno", nota.getIdCaderno());
             intent.putExtra("nomeCaderno", nota.getNomeCaderno());
+            intent.putExtra("remoteIdCaderno", nota.getRemoteIdCaderno());
+            intent.putExtra("remoteIdNote", nota.getRemoteId());
             context.startActivity(intent);
 
 
@@ -59,7 +60,7 @@ public class AnotacaoRecyclerAdapter extends RecyclerView.Adapter<AnotacaoRecycl
                     .setMessage("Tem certeza que deseja excluir esta anotação?")
                     .setPositiveButton("Excluir", (dialog, which) -> {
                         BancoControllerNote notaDAO = new BancoControllerNote(context);
-                        boolean sucesso = notaDAO.excluirNota(nota.getId());
+                        boolean sucesso = notaDAO.excluirNota(nota.getId(), nota.getRemoteId());
 
                         if (sucesso) {
                             notas.remove(position);

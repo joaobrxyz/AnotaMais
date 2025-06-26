@@ -8,32 +8,43 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.anotamais.database.CriaBanco;
 
+import java.util.UUID;
+
 public class BancoControllerCard {
     private SQLiteDatabase db;
     private CriaBanco banco;
+    private Context context;
 
     public BancoControllerCard(Context context) {
+        this.context = context;
         banco = new CriaBanco(context);
     }
 
 
-    public String insereDados(String pergunta, String resposta, int idNote, int idCaderno) {
+    public String insereDados(String pergunta, String resposta, String remoteIdNote, String remoteIdCaderno) {
         ContentValues valores;
         long resultado;
         db = banco.getWritableDatabase();
 
+        String remoteId = UUID.randomUUID().toString();
+        long updatedAt = System.currentTimeMillis();
+
         valores = new ContentValues();
         valores.put("pergunta", pergunta);
         valores.put("resposta", resposta);
-        valores.put("id_note", idNote);
-        valores.put("id_caderno", idCaderno);
+        valores.put("remoteId_note", remoteIdNote);
+        valores.put("remoteId_caderno", remoteIdCaderno);
+        valores.put("remoteId", remoteId);
+        valores.put("updatedAt", updatedAt);
         resultado = db.insert("card", null, valores);
         db.close();
+
+        SincronizacaoController.sincronizarSeLogado(context, false, 0);
 
         if (resultado == -1)
             return "Erro ao inserir registro";
         else
-            return "Registro Inserido com sucesso";
+            return "Flashcard Inserido com sucesso";
     }
 
     public Cursor carregaDadosPeloId(int id) {
@@ -76,8 +87,16 @@ public class BancoControllerCard {
 
     public boolean excluirCard(long id) {
         SQLiteDatabase db = banco.getWritableDatabase();
-        int linhasAfetadas = db.delete("card", "id = ?", new String[]{String.valueOf(id)});
+
+        ContentValues values = new ContentValues();
+        values.put("deleted", 1);
+        values.put("updatedAt", System.currentTimeMillis());
+
+        int linhasAfetadas = db.update("card", values, "id = ?", new String[]{String.valueOf(id)});
         db.close();
+
+        SincronizacaoController.sincronizarSeLogado(context, false, 0);
+
         return linhasAfetadas > 0;
     }
 
@@ -94,30 +113,35 @@ public class BancoControllerCard {
         return cursor;
     }
 
-    public Cursor listarCards(Integer idCaderno, Integer idNote) {
-        Cursor cursor;
-        String[] campos = { "id", "pergunta", "resposta", "id_note", "id_caderno" };
+    public Cursor listarCards(String remoteIdCaderno, String remoteIdNote) {
+        Cursor cursor = null;
+        String[] campos = { "id", "pergunta", "resposta", "remoteId_note", "remoteId_caderno" };
         db = banco.getReadableDatabase();
 
-        if (idCaderno != null) {
-            String where = "id_caderno = ?";
-            String[] whereArgs = { String.valueOf(idCaderno) };
-            cursor = db.query("card", campos, where, whereArgs, null, null, null);
-        } else {
-            if (idNote != 0) {
-                String where = "id_note = ?";
-                String[] whereArgs = { String.valueOf(idNote) };
+        try {
+            if (remoteIdCaderno != null) {
+                String where = "remoteId_caderno = ? AND deleted = 0";
+                String[] whereArgs = { remoteIdCaderno };
                 cursor = db.query("card", campos, where, whereArgs, null, null, null);
+            } else if (remoteIdNote != null) {
+                String where = "remoteId_note='"+remoteIdNote+"' AND deleted = 0";
+                cursor = db.query("card", campos, where, null, null, null, null);
             } else {
-                cursor = db.query("card", campos, null, null, null, null, null);
+                String where = "deleted = 0";
+                cursor = db.query("card", campos, where, null, null, null, null);
             }
-        }
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+            }
 
-        return cursor;
+            return cursor;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (cursor != null) cursor.close();
+            return null;
+        }
     }
+
 
 }

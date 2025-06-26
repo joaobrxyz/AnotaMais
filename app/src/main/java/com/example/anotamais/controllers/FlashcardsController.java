@@ -31,8 +31,8 @@ public class FlashcardsController {
     // Lista todos os flashcards na RecyclerView com base no filtro (página ou caderno)
     public static void listarCards(Context context,
                                    RecyclerView listaCards,
-                                   Integer idPagina,
-                                   Integer idCaderno,
+                                   String remoteIdNote,
+                                   String remoteIdCaderno,
                                    FrameLayout fundoPopup,
                                    LinearLayout conteudoPopup,
                                    TextView txtPergunta,
@@ -40,7 +40,7 @@ public class FlashcardsController {
                                    TextView textoPlaceholder,
                                    LinearLayout areaFiltro) {
 
-        List<FlashcardModel> cards = consultaTodosCards(context, idPagina, idCaderno, textoPlaceholder, areaFiltro);
+        List<FlashcardModel> cards = consultaTodosCards(context, remoteIdNote, remoteIdCaderno, textoPlaceholder, areaFiltro);
 
         // Define o layout da RecyclerView com número de colunas adaptável à tela
         int colunas = calcularColunas(context);
@@ -56,18 +56,26 @@ public class FlashcardsController {
 
     // Consulta todos os flashcards do banco com base no caderno e/ou página
     private static List<FlashcardModel> consultaTodosCards(Context context,
-                                                           Integer idPagina,
-                                                           Integer idCaderno,
+                                                           String remoteIdNote,
+                                                           String remoteIdCaderno,
                                                            TextView textoPlaceholder,
                                                            LinearLayout areaFiltro) {
         List<FlashcardModel> cards = new LinkedList<>();
 
         BancoControllerCard bd = new BancoControllerCard(context);
-        Cursor dados = bd.listarCards(idCaderno, idPagina);
+        Cursor dados = null;
+        if (remoteIdNote != null) {
+            dados = bd.listarCards(null, remoteIdNote);
+        } else if (remoteIdCaderno != null) {
+            dados = bd.listarCards(remoteIdCaderno, null);
+        } else {
+            dados = bd.listarCards(null, null);
+        }
+
 
         if (dados != null && dados.moveToFirst()) {
             // Mostra área de filtro se estiver em visualização geral
-            if (idPagina == 0) {
+            if (remoteIdNote == null) {
                 areaFiltro.setVisibility(View.VISIBLE);
             }
 
@@ -79,7 +87,8 @@ public class FlashcardsController {
                 card.setId(dados.getInt(0));
                 card.setPergunta(dados.getString(1));
                 card.setResposta(dados.getString(2));
-                card.setPaginaId(dados.getInt(3));
+                card.setRemoteIdNote(dados.getString(3));
+                card.setRemoteIdCaderno(dados.getString(4));
                 cards.add(card);
             } while (dados.moveToNext());
         }
@@ -121,6 +130,7 @@ public class FlashcardsController {
     public static void configurarFiltro(View filtroView,
                                         Activity activity,
                                         int idPagina,
+                                        String remoteIdNote,
                                         RecyclerView listaCards,
                                         TextView textoPlaceholder,
                                         TextView txtFiltro,
@@ -130,7 +140,7 @@ public class FlashcardsController {
                                         TextView txtResposta) {
 
         filtroView.setOnClickListener(v -> abrirBottomSheetFiltro(
-                activity, idPagina, listaCards,
+                activity, idPagina, remoteIdNote, listaCards,
                 textoPlaceholder, txtFiltro, (LinearLayout) filtroView,
                 fundoPopup, conteudoPopup, txtPergunta, txtResposta));
     }
@@ -138,6 +148,7 @@ public class FlashcardsController {
     // Exibe o bottom sheet com lista de cadernos para filtrar os flashcards
     public static void abrirBottomSheetFiltro(Activity activity,
                                               int idPagina,
+                                              String remoteIdNote,
                                               RecyclerView listaCards,
                                               TextView textoPlaceholder,
                                               TextView txtFiltro,
@@ -174,11 +185,15 @@ public class FlashcardsController {
 
             if (idSelecionado == -1) {
                 // Exibe todos os flashcards
-                listarCards(activity, listaCards, idPagina, null,
+                listarCards(activity, listaCards, remoteIdNote, null,
                         fundoPopup, conteudoPopup, txtPergunta, txtResposta, textoPlaceholder, areaFiltro);
             } else {
                 // Exibe apenas flashcards do caderno selecionado
-                listarCards(activity, listaCards, idPagina, idSelecionado,
+                BancoControllerCaderno bd = new BancoControllerCaderno(activity);
+                Cursor dados = bd.carregaDadosPeloId(idSelecionado);
+                dados.moveToFirst();
+                String remoteIdCaderno = dados.getString(2);
+                listarCards(activity, listaCards, remoteIdNote, remoteIdCaderno,
                         fundoPopup, conteudoPopup, txtPergunta, txtResposta, textoPlaceholder, areaFiltro);
             }
         });

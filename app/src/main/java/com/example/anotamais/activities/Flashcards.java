@@ -1,6 +1,7 @@
 package com.example.anotamais.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -14,6 +15,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.anotamais.R;
+import com.example.anotamais.controllers.BancoControllerCaderno;
+import com.example.anotamais.controllers.BancoControllerNote;
 import com.example.anotamais.controllers.FlashcardsController;
 
 public class Flashcards extends AppCompatActivity {
@@ -26,7 +29,7 @@ public class Flashcards extends AppCompatActivity {
 
     // Dados da anotação atual
     int idPagina, idCaderno;
-    String nomeCaderno;
+    String nomeCaderno, remoteIdNote, remoteIdCaderno = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,24 @@ public class Flashcards extends AppCompatActivity {
         // Recupera dados da anotação da Intent
         idPagina = getIntent().getIntExtra("idPagina", 0);
         idCaderno = getIntent().getIntExtra("idCaderno", 0);
-        nomeCaderno = getIntent().getStringExtra("nomeCaderno");
+        remoteIdNote = getIntent().getStringExtra("remoteIdNote");
+
+        // Pega o remoteId do caderno, e o nome do caderno do banco de dados
+        BancoControllerCaderno bd = new BancoControllerCaderno(getBaseContext());
+        Cursor dados = bd.carregaDadosPeloId(idCaderno);
+        if (dados != null && dados.moveToFirst()) {
+            nomeCaderno = dados.getString(1);
+            remoteIdCaderno = dados.getString(2);
+        }
+        dados.close();
+
+        // Pega o remoteId do note do banco de dados
+        BancoControllerNote bdNote = new BancoControllerNote(getBaseContext());
+        Cursor dadosNote = bdNote.carregaDadosPeloId(idPagina);
+        if (dadosNote != null && dadosNote.moveToFirst()) {
+            remoteIdNote = dadosNote.getString(4);
+        }
+        dadosNote.close();
 
         // Inicializa os componentes da tela
         btVoltarFlashcard = findViewById(R.id.btVoltarFlashcard);
@@ -65,13 +85,13 @@ public class Flashcards extends AppCompatActivity {
         }
 
         // Lista os flashcards da anotação ou gerais caso idPagina = 0
-        FlashcardsController.listarCards(this, listaCards, idPagina, null, fundoPopupFlashcards, conteudoPrincipalFlashcards, txtPerguntaResCard, txtRespostaCard, textoPlaceHolderFlashcards, areaFiltro);
+        FlashcardsController.listarCards(this, listaCards, remoteIdNote , null, fundoPopupFlashcards, conteudoPrincipalFlashcards, txtPerguntaResCard, txtRespostaCard, textoPlaceHolderFlashcards, areaFiltro);
 
         // Habilita esconder o popup ao tocar fora
         FlashcardsController.configurarToqueForaPopup(fundoPopupFlashcards, conteudoPrincipalFlashcards);
 
         // Configura a funcionalidade de filtro dos flashcards
-        FlashcardsController.configurarFiltro(areaFiltro, this, idPagina, listaCards, textoPlaceHolderFlashcards, txtFiltro, fundoPopupFlashcards, conteudoPrincipalFlashcards, txtPerguntaResCard, txtRespostaCard);
+        FlashcardsController.configurarFiltro(areaFiltro, this, idPagina, remoteIdNote, listaCards, textoPlaceHolderFlashcards, txtFiltro, fundoPopupFlashcards, conteudoPrincipalFlashcards, txtPerguntaResCard, txtRespostaCard);
 
         // Ação do botão de voltar
         btVoltarFlashcard.setOnClickListener(v -> {

@@ -43,14 +43,14 @@ public class NotesController {
     }
 
     // Exibe um menu popup com opções: nova página, flashcards, excluir anotação
-    public static void abrirMenuOpcoes(Context context, View anchor, int idPagina, int idCaderno, String nomeCaderno) {
+    public static void abrirMenuOpcoes(Context context, View anchor, int idPagina, int idCaderno, String nomeCaderno, String remoteIdCaderno, String remoteIdNote) {
         PopupMenu popup = new PopupMenu(context, anchor);
         popup.getMenuInflater().inflate(R.menu.menu_opcoes_notes, popup.getMenu());
 
         popup.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
             if (id == R.id.opcao_nova_pagina) {
-                criarNovaPagina(context, idCaderno, nomeCaderno, dataFormatada);
+                criarNovaPagina(context, remoteIdCaderno , nomeCaderno, dataFormatada, idCaderno);
                 return true;
             } else if (id == R.id.opcao_flashcards) {
                 visualizarFlashcards(context, idPagina, idCaderno, nomeCaderno);
@@ -61,7 +61,7 @@ public class NotesController {
                         .setTitle("Confirmar exclusão")
                         .setMessage("Tem certeza que deseja excluir essa anotação?")
                         .setPositiveButton("Sim", (dialog, which) -> {
-                            excluirAnotacao(context, idPagina, idCaderno);
+                            excluirAnotacao(context, idPagina, idCaderno, remoteIdNote);
                         })
                         .setNegativeButton("Cancelar", null)
                         .show();
@@ -98,9 +98,9 @@ public class NotesController {
     }
 
     // Cria uma nova página (nota) com valores padrão e abre ela para edição
-    public static void criarNovaPagina(Context context, int idCaderno, String nomeCaderno, String data) {
+    public static void criarNovaPagina(Context context, String remoteIdCaderno, String nomeCaderno, String data, int idCaderno) {
         BancoControllerNote bd = new BancoControllerNote(context);
-        long id = bd.insereDados("Título da Página", "Conteúdo da Página", idCaderno, data);
+        long id = bd.insereDados("Título da Página", "Conteúdo da Página", remoteIdCaderno, data);
         if (id == -1) {
             Toast.makeText(context, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
         } else {
@@ -108,6 +108,7 @@ public class NotesController {
             intent.putExtra("idPagina", (int) id);
             intent.putExtra("idCaderno", idCaderno);
             intent.putExtra("nomeCaderno", nomeCaderno);
+            intent.putExtra("remoteIdCaderno", remoteIdCaderno);
             context.startActivity(intent);
         }
     }
@@ -122,9 +123,9 @@ public class NotesController {
     }
 
     // Exclui uma anotação e fecha a tela atual retornando para o caderno
-    public static void excluirAnotacao(Context context, int idPagina, int idCaderno) {
+    public static void excluirAnotacao(Context context, int idPagina, int idCaderno, String remoteIdNote) {
         BancoControllerNote bd = new BancoControllerNote(context);
-        bd.excluirNota(idPagina);
+        bd.excluirNota(idPagina, remoteIdNote);
         // Se o contexto for uma Activity, fecha ela
         if (context instanceof android.app.Activity) {
             ((android.app.Activity) context).finish();
@@ -134,9 +135,9 @@ public class NotesController {
 
     // Salva um flashcard no banco e chama callback após salvar
     public static void salvarFlashcard(Context context, String pergunta, String resposta,
-                                       int idPagina, int idCaderno, Callback callback) {
+                                       String remoteIdNote, String remoteIdCaderno, Callback callback) {
         BancoControllerCard bdCard = new BancoControllerCard(context);
-        bdCard.insereDados(pergunta, resposta, idPagina, idCaderno);
+        bdCard.insereDados(pergunta, resposta, remoteIdNote, remoteIdCaderno);
         if (callback != null) callback.onComplete();
     }
 
@@ -165,7 +166,7 @@ public class NotesController {
         String promptPergunta = "Estou te utilizando como api em um projeto, então quero que vc apenas retorne oq eu pedir, sem vc falar nada. " +
                 "Estou gerando um flashcard, onde tem uma pergunta curta e uma resposta curta, nesse prompt quero que vc retorne apenas uma pergunta sobre essa aula " +
                 "(Lembre-se, pergunta curta!! com no máximo 80 caracteres): " + textoConteudo + " (Faça perguntas diferentes dessas, pois já foram criadas: " +
-                consultaTodasAsPerguntasDosFlashcards(context, 0) + ")";
+                consultaTodasAsPerguntasDosFlashcards(context, null) + ")";
 
         gemini.getResponse(promptPergunta, new GeminiConfig.GeminiCallback() {
             @Override
@@ -232,10 +233,10 @@ public class NotesController {
     }
 
     // Consulta todas as perguntas dos flashcards para evitar repetição na geração automática
-    private static List<String> consultaTodasAsPerguntasDosFlashcards(Context context, int idPagina) {
+    private static List<String> consultaTodasAsPerguntasDosFlashcards(Context context, String remoteIdNote) {
         List<String> perguntas = new LinkedList<>();
         BancoControllerCard bd = new BancoControllerCard(context);
-        Cursor cursor = bd.listarCards(null, idPagina);
+        Cursor cursor = bd.listarCards(null, remoteIdNote);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 perguntas.add(cursor.getString(1));

@@ -57,6 +57,7 @@ public class CadernoRecyclerAdapter extends RecyclerView.Adapter<CadernoRecycler
             Intent intent = new Intent(context, Caderno.class);
             intent.putExtra("nomeCaderno", caderno.getNome());
             intent.putExtra("idCaderno", caderno.getId());
+            intent.putExtra("remoteIdCaderno", caderno.getRemoteId());
             context.startActivity(intent);
         });
 
@@ -91,7 +92,7 @@ public class CadernoRecyclerAdapter extends RecyclerView.Adapter<CadernoRecycler
                         if (sucesso) {
                             cadernos.remove(position);
                             notifyItemRemoved(position);
-                            Toast.makeText(context, "Anotação excluída", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Caderno excluído com sucesso", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Erro ao excluir", Toast.LENGTH_SHORT).show();
                         }

@@ -9,8 +9,6 @@
     tools:context=".activities.Configuracoes">
 
 
-
-    <!-- Perfil do Usuário -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,79 +36,88 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btnAlterarInfoConta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp"
-        android:clickable="true"
-        android:focusable="true">
+        android:orientation="vertical"
+        android:background="@drawable/borda_layout"
+        android:padding="8dp"
+        android:layout_marginBottom="30dp">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/btnAlterarInfoConta"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Alterar informações da conta"
-            android:textSize="18sp"
-            android:textColor="#333333"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:clickable="true"
+            android:focusable="true">
 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Alterar informações da conta"
+                android:textSize="18sp"
+                android:textColor="#333333"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:clickable="true"
+            android:focusable="true">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:text="Alterar nome:"
+                android:textSize="16sp"
+                android:textColor="#333333"/>
+
+            <EditText
+                android:id="@+id/newNameUser"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btAlterarNomeUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alterar"
+            android:textSize="16dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="#FEB342"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
-    <!-- Tema -->
-    <LinearLayout
-        android:id="@+id/btnTema"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp"
-        android:layout_marginBottom="12dp"
-        android:clickable="true"
-        android:focusable="true">
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:text="Alterar nome:"
-            android:textSize="16sp"
-            android:textColor="#333333"/>
-
-        <EditText
-            android:id="@+id/newNameUser"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btAlterarNomeUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Alterar"
-        android:textSize="16dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:backgroundTint="#FEB342"
-        android:textColor="@color/black"/>
-
-    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp"
+        android:background="@drawable/borda_layout"
+        android:padding="8dp"
         android:layout_marginBottom="12dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sincronizar com o google drive"
+            android:text="Sincronizar com a nuvem"
             android:textSize="16sp"
             android:textColor="#333333"/>
 
@@ -119,7 +126,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-    -->
 
     <LinearLayout
         android:layout_width="match_parent"

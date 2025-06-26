@@ -1,6 +1,7 @@
 package com.example.anotamais.activities;
 
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.example.anotamais.R;
 import com.example.anotamais.config.GeminiConfig;
+import com.example.anotamais.controllers.BancoControllerCaderno;
+import com.example.anotamais.controllers.BancoControllerNote;
 import com.example.anotamais.controllers.NotesController;
 
 public class Notes extends AppCompatActivity {
@@ -34,7 +37,7 @@ public class Notes extends AppCompatActivity {
 
     // IDs e nome do caderno para controle interno
     private int idPagina, idCaderno;
-    private String nomeCaderno;
+    private String nomeCaderno, remoteIdCaderno, remoteIdNote;
 
     // Objeto Gemini para chamadas da API IA
     private GeminiConfig gemini;
@@ -49,8 +52,24 @@ public class Notes extends AppCompatActivity {
 
         // Recebe dados da Intent que iniciou essa activity
         idPagina = getIntent().getIntExtra("idPagina", 0);
-        idCaderno = getIntent().getIntExtra("idCaderno", 0);
-        nomeCaderno = getIntent().getStringExtra("nomeCaderno");
+
+        // Pega o remoteId do note e do caderno do banco de dados
+        BancoControllerNote bdNote = new BancoControllerNote(getBaseContext());
+        Cursor dadosNote = bdNote.carregaDadosPeloId(idPagina);
+        if (dadosNote != null && dadosNote.moveToFirst()) {
+            remoteIdNote = dadosNote.getString(4);
+            remoteIdCaderno = dadosNote.getString(3);
+        }
+        dadosNote.close();
+
+        // Pega o id do caderno, e o nome do caderno do banco de dados
+        BancoControllerCaderno bd = new BancoControllerCaderno(getBaseContext());
+        Cursor dados = bd.carregaDadosPeloRemoteId(remoteIdCaderno);
+        if (dados != null && dados.moveToFirst()) {
+            idCaderno = dados.getInt(0);
+            nomeCaderno = dados.getString(1);
+        }
+        dados.close();
 
         // Inicializa a configuração da Gemini API com a chave do BuildConfig
         gemini = new GeminiConfig(com.example.anotamais.BuildConfig.GEMINI_API_KEY);
@@ -84,7 +103,7 @@ public class Notes extends AppCompatActivity {
 
         // Configura o clique para abrir o menu de opções da nota
         btMenuOpcoes.setOnClickListener(v ->
-                NotesController.abrirMenuOpcoes(this, v, idPagina, idCaderno, nomeCaderno)
+                NotesController.abrirMenuOpcoes(this, v, idPagina, idCaderno, nomeCaderno, remoteIdCaderno, remoteIdNote)
         );
 
         // Listener para alterações no título da nota
@@ -118,7 +137,7 @@ public class Notes extends AppCompatActivity {
 
         // Ação do botão para salvar flashcard no banco e esconder popup após sucesso
         btSalvarFlashcard.setOnClickListener(v ->
-                NotesController.salvarFlashcard(this, txtPergunta.getText().toString(), txtResposta.getText().toString(), idPagina, idCaderno,
+                NotesController.salvarFlashcard(this, txtPergunta.getText().toString(), txtResposta.getText().toString(), remoteIdNote, remoteIdCaderno,
                         () -> {
                             Toast.makeText(this, "Flashcard criada com sucesso!", Toast.LENGTH_LONG).show();
                             fundoPopup.setVisibility(View.GONE);

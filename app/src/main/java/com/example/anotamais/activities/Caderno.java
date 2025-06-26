@@ -21,7 +21,7 @@ public class Caderno extends AppCompatActivity {
     ImageButton btVoltarCaderno;
 
     // Variáveis para armazenar os dados do caderno atual
-    String nomeCaderno;
+    String nomeCaderno, remoteIdCaderno;
     int idCaderno;
 
     @Override
@@ -35,11 +35,12 @@ public class Caderno extends AppCompatActivity {
         // Recupera o ID do caderno passado pela intent
         idCaderno = getIntent().getIntExtra("idCaderno", 0);
 
-        // Busca o nome do caderno no banco de dados usando o ID
-        BancoControllerCaderno bdCad = new BancoControllerCaderno(getBaseContext());
-        Cursor dados = bdCad.carregaDadosPeloId(idCaderno);
+        // Pega o remoteId do caderno, e o nome do caderno do banco de dados
+        BancoControllerCaderno bd = new BancoControllerCaderno(getBaseContext());
+        Cursor dados = bd.carregaDadosPeloId(idCaderno);
         if (dados != null && dados.moveToFirst()) {
-            nomeCaderno = dados.getString(1); // Posição 1 = nome do caderno
+            nomeCaderno = dados.getString(1);
+            remoteIdCaderno = dados.getString(2);
         }
         dados.close();
 
@@ -54,12 +55,12 @@ public class Caderno extends AppCompatActivity {
         nomeCadernoCaderno.setText("Caderno: " + nomeCaderno);
 
         // Lista todas as anotações desse caderno no RecyclerView
-        CadernoController.listarNotes(this, listaAnotacao, idCaderno, nomeCaderno);
+        CadernoController.listarNotes(this, listaAnotacao, remoteIdCaderno, nomeCaderno);
 
         // Configura o botão de voltar para retornar à tela anterior
         CadernoController.voltarCaderno(this, btVoltarCaderno);
 
         // Configura o botão para criar uma nova anotação dentro desse caderno
-        CadernoController.CriarAnotacao(this, btCriarAnotacao, idCaderno, nomeCaderno);
+        CadernoController.CriarAnotacao(this, btCriarAnotacao, idCaderno, nomeCaderno, remoteIdCaderno);
     }
 }

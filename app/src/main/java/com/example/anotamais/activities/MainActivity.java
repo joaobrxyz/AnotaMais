@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.anotamais.controllers.BancoControllerUsuario;
 import com.example.anotamais.controllers.MainController;
 import com.example.anotamais.R;
+import com.example.anotamais.controllers.SincronizacaoController;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -120,5 +123,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Abre a tela de favoritos
         if (id == R.id.btFavoritosMain) MainController.abrirTela(this, Favoritos.class);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            SincronizacaoController.sincronizarComFirestore(this, currentUser, true, 24);
+        }
     }
 }

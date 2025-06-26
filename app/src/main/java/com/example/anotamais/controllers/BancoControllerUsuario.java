@@ -7,11 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.anotamais.database.CriaBanco;
 
+import java.util.UUID;
+
 public class BancoControllerUsuario {
     private SQLiteDatabase db;
     private CriaBanco banco;
+    private Context context;
 
     public BancoControllerUsuario(Context context) {
+        this.context = context;
         banco = new CriaBanco(context);
     }
 
@@ -21,10 +25,17 @@ public class BancoControllerUsuario {
         long resultado;
         db = banco.getWritableDatabase();
 
+        String remoteId = UUID.randomUUID().toString();
+        long updatedAt = System.currentTimeMillis();
+
         valores = new ContentValues();
         valores.put("name", txtName);
+        valores.put("remoteId", remoteId);
+        valores.put("updatedAt", updatedAt);
         resultado = db.insert("usuario", null, valores);
         db.close();
+
+        SincronizacaoController.sincronizarSeLogado(context, false, 0);
 
         if (resultado == -1)
             return "Erro ao inserir registro";
@@ -53,8 +64,11 @@ public class BancoControllerUsuario {
 
         db = banco.getReadableDatabase();
 
+        long updatedAt = System.currentTimeMillis();
+
         ContentValues valores = new ContentValues() ;
-        valores.put("name" , name ) ;
+        valores.put("name" , name );
+        valores.put("updatedAt", updatedAt);
 
         String condicao = "id = 1";
 
@@ -66,6 +80,9 @@ public class BancoControllerUsuario {
         }
 
         db.close();
+
+        SincronizacaoController.sincronizarSeLogado(context, false, 0);
+
         return msg;
     }
 
@@ -75,7 +92,30 @@ public class BancoControllerUsuario {
         Cursor cursor = db.rawQuery(query, null);
         boolean existe = cursor.getCount() > 0;
         cursor.close();
-        db.close();
         return existe;
+    }
+
+    public void salvarOuAtualizarUidUsuario(String uid) {
+        db = banco.getWritableDatabase();
+
+        ContentValues valores = new ContentValues();
+        valores.put("uid", uid);
+        valores.put("updatedAt", System.currentTimeMillis());
+
+        db.update("usuario", valores, "id = 1", null);
+
+        db.close();
+    }
+
+    public String getUidUsuario() {
+        db = banco.getReadableDatabase();
+        String uid = null;
+        Cursor cursor = db.rawQuery("SELECT remoteId FROM usuario WHERE id = 1", null);
+        if (cursor.moveToFirst()) {
+            uid = cursor.getString(0);
+        }
+        cursor.close();
+        db.close();
+        return uid;
     }
 }

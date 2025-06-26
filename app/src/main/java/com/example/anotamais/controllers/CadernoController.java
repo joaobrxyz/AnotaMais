@@ -27,12 +27,12 @@ public class CadernoController {
     static String dataFormatada = sdf.format(calendar.getTime());
 
     // Retorna todas as anotações de um caderno específico
-    public static List<NotaModel> consultaTodasAnotacoes(Context context, int idCaderno, String nomeCaderno) {
+    public static List<NotaModel> consultaTodasAnotacoes(Context context, String remoteIdCaderno, String nomeCaderno) {
         List<NotaModel> anotacoes = new LinkedList<>();
 
         // Consulta ao banco de dados
         BancoControllerNote bd = new BancoControllerNote(context);
-        Cursor dados = bd.listarNotes(idCaderno);
+        Cursor dados = bd.listarNotes(remoteIdCaderno);
 
         // Se houver dados, preenche a lista de anotações
         if (dados != null && dados.moveToFirst()) {
@@ -45,7 +45,7 @@ public class CadernoController {
                 nota.setId(dados.getInt(0));
                 nota.setTitulo(dados.getString(1));
                 nota.setConteudo(dados.getString(2));
-                nota.setIdCaderno(dados.getInt(3));
+                nota.setRemoteIdCaderno(dados.getString(3));
                 nota.setData(dados.getString(4));
                 nota.setNomeCaderno(nomeCaderno);
                 anotacoes.add(nota);
@@ -57,8 +57,8 @@ public class CadernoController {
     }
 
     // Lista todas as notas no RecyclerView de forma horizontal e adaptada à altura da tela
-    public static void listarNotes(Context context, RecyclerView recyclerView, int idCaderno, String nomeCaderno) {
-        List<NotaModel> notas = consultaTodasAnotacoes(context, idCaderno, nomeCaderno);
+    public static void listarNotes(Context context, RecyclerView recyclerView, String remoteIdCaderno, String nomeCaderno) {
+        List<NotaModel> notas = consultaTodasAnotacoes(context, remoteIdCaderno, nomeCaderno);
 
         // Calcula o número de linhas baseado na altura da tela
         int linhas = calcularLinhasPorAlturaTela(context);
@@ -97,19 +97,19 @@ public class CadernoController {
     }
 
     // Configura a ação do botão "Criar Anotação" dentro do caderno
-    public static void CriarAnotacao(Activity activity, Button botaoCriarAnotacao, int idCaderno, String nomeCaderno) {
+    public static void CriarAnotacao(Activity activity, Button botaoCriarAnotacao, int idCaderno, String nomeCaderno, String remoteIdCaderno) {
         botaoCriarAnotacao.setOnClickListener(v -> {
 
             // Insere nova nota no banco de dados
             BancoControllerNote bd = new BancoControllerNote(activity.getBaseContext());
-            long id = bd.insereDados("Título da Página", "Conteúdo da Página", idCaderno, dataFormatada);
+            long id = bd.insereDados("Título da Página", "Conteúdo da Página", remoteIdCaderno, dataFormatada);
 
             // Verifica se a inserção foi bem-sucedida
             if (id == -1) {
                 Toast.makeText(activity, "Erro ao criar nova página", Toast.LENGTH_LONG).show();
             } else {
                 // Atualiza a lista de notas
-                listarNotes(activity, activity.findViewById(R.id.listaNotes), idCaderno,
+                listarNotes(activity, activity.findViewById(R.id.listaNotes), remoteIdCaderno,
                         ((TextView) activity.findViewById(R.id.nomeCadernoCaderno)).getText().toString().replace("Caderno: ", ""));
 
                 // Abre a nova página criada

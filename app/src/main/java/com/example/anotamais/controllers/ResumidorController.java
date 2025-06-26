@@ -104,11 +104,17 @@ public class ResumidorController {
             int cadernoIdSelecionado = ids.get(position);
             String nomeCaderno = nomes.get(position);
 
+            BancoControllerCaderno controllerCaderno = new BancoControllerCaderno(activity);
+            Cursor cursorCaderno = controllerCaderno.carregaDadosPeloId(cadernoIdSelecionado);
+            cursorCaderno.moveToFirst();
+            String remoteIdCaderno = cursorCaderno.getString(2);
+            cursorCaderno.close();
+
             Toast.makeText(activity, "Página salva no caderno: " + nomeCaderno, Toast.LENGTH_SHORT).show();
 
             BancoControllerNote controllerNote = new BancoControllerNote(activity);
             String dataFormatada = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
-            controllerNote.insereDados(titulo, conteudo, cadernoIdSelecionado, dataFormatada);
+            controllerNote.insereDados(titulo, conteudo, remoteIdCaderno, dataFormatada);
 
             dialog.dismiss();
         });
